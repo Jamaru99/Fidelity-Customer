@@ -19,10 +19,6 @@ function RegisterScreen({ navigation, registerCustomerDispatched }) {
     password: "",
     confirmPassword: "",
     name: "",
-    nCardPoints: "",
-    state: "",
-    city: "",
-    address: ""
   })
 
   const onChange = field => text => {
@@ -41,13 +37,8 @@ function RegisterScreen({ navigation, registerCustomerDispatched }) {
       />
 
       <TextField
-        label='Nome da empresa *'
+        label='Nome *'
         onChangeText={onChange("name")}
-      />
-
-      <TextField
-        label='Número de pontos do cartão *'
-        onChangeText={onChange("nCardPoints")}
       />
 
       <TextField
@@ -60,16 +51,6 @@ function RegisterScreen({ navigation, registerCustomerDispatched }) {
         label='Confirmar senha *'
         secureTextEntry={true}
         onChangeText={onChange("confirmPassword")}
-      />
-
-      <TextField
-        label='Estado *'
-        onChangeText={onChange("state")}
-      />
-
-      <TextField
-        label='Cidade *'
-        onChangeText={onChange("city")}
       />
           
       <View style={styles.button}>

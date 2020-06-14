@@ -8,7 +8,7 @@ import {
 
 import styles from './cardlist.style';
 
-function CardListScreen({ companyData }) {
+function CardListScreen({ customerData }) {
 
     return (
         <View style={styles.container}>
@@ -18,7 +18,7 @@ function CardListScreen({ companyData }) {
 }
 
 const mapStateToProps = (state) => ({
-    companyData: state.companyData,
+    customerData: state.customerData,
 });
 
   

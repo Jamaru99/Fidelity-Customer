@@ -1,8 +1,8 @@
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import * as React from 'react';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import TabBarIcon from '../components/TabBarIcon';
-import { ProfileScreen, CardListScreen } from '../screens';
+import { ProfileScreen, CardListScreen } from '@screens';
 
 const BottomTab = createBottomTabNavigator();
 const INITIAL_ROUTE_NAME = 'Home';
@@ -17,8 +17,8 @@ export default function BottomTabNavigator({ navigation, route }) {
         name="Home"
         component={CardListScreen}
         options={{
-          title: 'QR Code',
-          tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="qrcode" />,
+          title: 'Cartões',
+          tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="credit-card" />,
         }}
       />
       <BottomTab.Screen

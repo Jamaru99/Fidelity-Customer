@@ -12,10 +12,6 @@ export default function ProfileScreen() {
     password: "",
     confirmPassword: "",
     name: "",
-    nCardPoints: "",
-    state: "",
-    city: "",
-    address: "" 
   })
 
   const onChange = field => text => {
@@ -30,13 +26,8 @@ export default function ProfileScreen() {
       />
 
       <TextField
-        label='Nome da empresa *'
+        label='Nome *'
         onChangeText={onChange("name")}
-      />
-
-      <TextField
-        label='Número de pontos do cartão *'
-        onChangeText={onChange("nCardPoints")}
       />
 
       <TextField
@@ -49,16 +40,6 @@ export default function ProfileScreen() {
         label='Confirmar senha *'
         secureTextEntry={true}
         onChangeText={onChange("confirmPassword")}
-      />
-
-      <TextField
-        label='Estado *'
-        onChangeText={onChange("state")}
-      />
-
-      <TextField
-        label='Cidade *'
-        onChangeText={onChange("city")}
       />
           
       <View style={styles.button}>

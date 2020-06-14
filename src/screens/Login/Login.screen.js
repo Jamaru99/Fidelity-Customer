@@ -13,13 +13,13 @@ import { authenticateCustomer } from '@state';
 
 import styles from './login.style';
 
-function LoginScreen({ navigation, authenticateCustomerDispatched, companyData }) {
+function LoginScreen({ navigation, authenticateCustomerDispatched, customerData }) {
 
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
+    const [username, setUsername] = useState("")
+    const [password, setPassword] = useState("")
 
     const handleLoginPress = () => {
-        authenticateCustomerDispatched({ username, password, navigation });
+        authenticateCustomerDispatched({ username, password, navigation })
     }
 
     return (
@@ -41,8 +41,7 @@ function LoginScreen({ navigation, authenticateCustomerDispatched, companyData }
                 disabled={!username || !password}
             />
 
-            <Text style={styles.errorText}>{companyData.error}</Text>
-            <Text>I love you</Text>
+            <Text style={styles.errorText}>{customerData.error}</Text>
 
             <View style={styles.registerContainer}>
                 <Text>{texts.login["new_user"]} </Text>
@@ -58,7 +57,7 @@ function LoginScreen({ navigation, authenticateCustomerDispatched, companyData }
 
 
 const mapStateToProps = (state) => ({
-    companyData: state.companyData,
+    customerData: state.customerData
 });
   
 const mapDispatchToProps = {

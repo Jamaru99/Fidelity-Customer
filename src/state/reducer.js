@@ -7,13 +7,13 @@ import {
 
 const initialState = {
   loading: false,
-  companyData: {},
+  customerData: {},
 };
 
 const stateMachine = {
   [SET_LOADING]: payload => ({ loading: payload }),
-  [AUTHENTICATE_SUCCESS]: payload => ({ companyData: payload }),
-  [AUTHENTICATE_FAILED]: payload => ({ companyData: { error: payload } }),
+  [AUTHENTICATE_SUCCESS]: payload => ({ customerData: payload }),
+  [AUTHENTICATE_FAILED]: payload => ({ customerData: { error: payload } }),
 };
 
 export default createReducer(initialState, stateMachine);
