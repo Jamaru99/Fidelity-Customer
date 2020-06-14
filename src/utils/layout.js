@@ -4,9 +4,8 @@ const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
 
 export default {
-  window: {
-    width,
-    height,
-  },
+  screenWidth: width,
+  screenHeight: height,
+  defaultContainerWidth: width/1.2,
   isSmallDevice: width < 375,
 };
