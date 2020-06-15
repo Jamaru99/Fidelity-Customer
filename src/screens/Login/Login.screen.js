@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import { connect } from "react-redux";
 import {
   Button,
@@ -53,8 +53,6 @@ function LoginScreen({ navigation, authenticateCustomerDispatched, customerData 
         </View>
     );
 }
-
-
 
 const mapStateToProps = (state) => ({
     customerData: state.customerData
