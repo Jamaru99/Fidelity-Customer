@@ -2,14 +2,17 @@ import * as React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import TabBarIcon from '../components/TabBarIcon';
-import { ProfileScreen, CardListScreen } from '@screens';
+import { ProfileScreen, CardListScreen, CameraQRScreen } from '@screens';
 
 const BottomTab = createBottomTabNavigator();
 const INITIAL_ROUTE_NAME = 'Home';
 
 export default function BottomTabNavigator({ navigation, route }) {
 
-  navigation.setOptions({ headerTitle: getHeaderTitle(route) });
+  navigation.setOptions({
+    headerTitle: getHeaderTitle(route),
+    headerLeft: null
+  });
 
   return (
     <BottomTab.Navigator initialRouteName={INITIAL_ROUTE_NAME}>
@@ -19,6 +22,14 @@ export default function BottomTabNavigator({ navigation, route }) {
         options={{
           title: 'Cartões',
           tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="credit-card" />,
+        }}
+      />
+      <BottomTab.Screen
+        name="CameraQR"
+        component={CameraQRScreen}
+        options={{
+          title: 'Leitor QR',
+          tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="qrcode-scan" />,
         }}
       />
       <BottomTab.Screen
@@ -38,7 +49,9 @@ function getHeaderTitle(route) {
 
   switch (routeName) {
     case 'Home':
-      return 'Cartão Fidelidade - QR Code'
+      return 'Meus cartões'
+    case 'CameraQR':
+      return 'Leitor QR'
     case 'Info':
       return 'Meus dados'
   }

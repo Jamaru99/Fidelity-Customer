@@ -6,8 +6,7 @@ import {
   StyleSheet,
   View
 } from 'react-native';
-
-//import { authenticateCustomer } from '@state';
+import { layout } from '@utils'
 
 function CameraQRScreen({ navigation, customerData }) {
 
@@ -56,6 +55,7 @@ function CameraQRScreen({ navigation, customerData }) {
 const opacity = 'rgba(0, 0, 0, .6)';
 const styles = StyleSheet.create({
   container: {
+    width: layout.screenWidth,
     flex: 1,
     flexDirection: 'column'
   },
