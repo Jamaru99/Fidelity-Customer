@@ -19,3 +19,15 @@ export const [AUTHENTICATE_SUCCESS, authenticateCustomerSuccess] = createAction(
 export const [AUTHENTICATE_FAILED, authenticateCustomerFailed] = createAction(
   `AUTHENTICATE_FAILED`
 );
+
+export const [GET_CARD_LIST, getCardList] = createAction(
+  `GET_CARD_LIST`
+);
+
+export const [GET_CARD_LIST_SUCCESS, getCardListSuccess] = createAction(
+  `GET_CARD_LIST_SUCCESS`
+);
+
+export const [GET_CARD_LIST_FAILED, getCardListFailed] = createAction(
+  `GET_CARD_LIST_FAILED`
+);

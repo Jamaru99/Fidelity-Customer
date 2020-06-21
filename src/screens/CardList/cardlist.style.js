@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { layout } from '@utils';
+import { layout, colors } from '@utils';
 
 const styles = StyleSheet.create({
     container: {
@@ -12,6 +12,12 @@ const styles = StyleSheet.create({
     image: {
       width: 150,
       height: 150
+    },
+    cardItemContainer: {
+      width: '100%',
+      height: 60,
+      marginTop: 15,
+      backgroundColor: colors.tabIconDefault
     }
 });
 
