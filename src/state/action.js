@@ -31,3 +31,7 @@ export const [GET_CARD_LIST_SUCCESS, getCardListSuccess] = createAction(
 export const [GET_CARD_LIST_FAILED, getCardListFailed] = createAction(
   `GET_CARD_LIST_FAILED`
 );
+
+export const [INCREMENT_CARD, incrementCard] = createAction(
+  `INCREMENT_CARD`
+)

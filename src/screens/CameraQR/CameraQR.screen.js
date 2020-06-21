@@ -1,20 +1,24 @@
 import React, { useState, useEffect } from 'react';
-import { connect } from "react-redux";
-import { BarCodeScanner } from 'expo-barcode-scanner';
 import {
   Text,
   StyleSheet,
   View
 } from 'react-native';
-import { layout } from '@utils'
+import { connect } from "react-redux";
+import { BarCodeScanner } from 'expo-barcode-scanner';
 
-function CameraQRScreen({ navigation, customerData }) {
+import { incrementCard } from '@state';
+import { layout } from '@utils';
+
+function CameraQRScreen({ navigation, customerData, incrementCardDispatched }) {
 
     const [hasPermission, setHasPermission] = useState(false)
 
     function handleBarCodeScanned({type, data}) {
-        if(type == 256)
-            navigation.navigate("BottomTabNavigator")
+        if(type == 256){
+          console.log("read")
+          incrementCardDispatched({ companyId: data, navigation })
+        }
     }
 
     useEffect(() => {
@@ -88,6 +92,8 @@ const mapStateToProps = (state) => ({
     customerData: state.customerData
 })
   
-const mapDispatchToProps = {}
+const mapDispatchToProps = {
+  incrementCardDispatched: incrementCard
+}
   
 export default connect(mapStateToProps, mapDispatchToProps)(CameraQRScreen);

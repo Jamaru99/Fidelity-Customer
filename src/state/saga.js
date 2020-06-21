@@ -6,6 +6,7 @@ import {
   GET_CARD_LIST,
   getCardListSuccess,
   getCardListFailed,
+  INCREMENT_CARD,
   setLoading,
   REGISTER_CUSTOMER
 } from "./action";
@@ -13,7 +14,8 @@ import {
 import { 
   authenticateCustomer as authenticateCustomerService,
   registerCustomer as registerCustomerService,
-  getCardList as getCardListService
+  getCardList as getCardListService,
+  incrementCard as incrementCardService
 } from "@services";
 
 import { texts } from '@utils';
@@ -52,9 +54,23 @@ function* getCardList(action) {
   }
 }
 
+function* incrementCard(action) {
+  try {
+    const { cards, customerData } = yield select(state => state)
+    const card = cards.find((card) => card.companyId == action.payload.companyId)
+    if(!!card) {
+      yield call(incrementCardService, card._id)
+      action.payload.navigation.navigate("CardDetail")
+    }
+  } catch {
+
+  }
+}
+
 // SAGA
 export default function* saga() {
   yield takeLatest(AUTHENTICATE_CUSTOMER, authenticateCustomer)
   yield takeLatest(REGISTER_CUSTOMER, registerCustomer)
   yield takeLatest(GET_CARD_LIST, getCardList)
+  yield takeLatest(INCREMENT_CARD, incrementCard)
 }
