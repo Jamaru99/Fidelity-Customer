@@ -7,11 +7,13 @@ import {
 } from 'react-native';
 import { connect } from "react-redux";
 
-function CardDetailScreen({ customerData }) {
+function CardDetailScreen({ customerData, route }) {
+
+    const { card } = route.params
 
     return (
         <View>
-            <Text>asdoadasd</Text>
+            <Text>{card.points}/{card.companyData.nCardPoints}</Text>
         </View>
     )
 }

@@ -14,9 +14,8 @@ function CameraQRScreen({ navigation, customerData, incrementCardDispatched }) {
 
     const [hasPermission, setHasPermission] = useState(false)
 
-    function handleBarCodeScanned({type, data}) {
+    function handleBarCodeScanned({ type, data }) {
         if(type == 256){
-          console.log("read")
           incrementCardDispatched({ companyId: data, navigation })
         }
     }
