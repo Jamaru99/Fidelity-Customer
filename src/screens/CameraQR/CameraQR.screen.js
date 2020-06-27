@@ -10,20 +10,25 @@ import { BarCodeScanner } from 'expo-barcode-scanner';
 import { incrementCard } from '@state';
 import { layout } from '@utils';
 
+const QR_CODE = 256
+const STATUS_GRANTED = 'granted'
+
 function CameraQRScreen({ navigation, customerData, incrementCardDispatched }) {
 
     const [hasPermission, setHasPermission] = useState(false)
+    let read = false
 
     function handleBarCodeScanned({ type, data }) {
-        if(type == 256){
+        if(type === QR_CODE && !read){
           incrementCardDispatched({ companyId: data, navigation })
+          read = true
         }
     }
 
     useEffect(() => {
         (async () => {
           const { status } = await BarCodeScanner.requestPermissionsAsync()
-          setHasPermission(status === 'granted');
+          setHasPermission(status === STATUS_GRANTED);
         })();
       }, []);
 

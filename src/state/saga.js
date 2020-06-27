@@ -15,7 +15,8 @@ import {
   authenticateCustomer as authenticateCustomerService,
   registerCustomer as registerCustomerService,
   getCardList as getCardListService,
-  incrementCard as incrementCardService
+  incrementCard as incrementCardService,
+  createCard as createCardService
 } from "@services";
 
 import { texts } from '@utils';
@@ -60,7 +61,15 @@ function* incrementCard(action) {
     const card = cards.find((card) => card.companyId == action.payload.companyId)
     if(!!card) {
       yield call(incrementCardService, card._id)
-      action.payload.navigation.navigate("CardDetail")
+      action.payload.navigation.navigate("CardDetail", { card })
+    } else {
+      const { data } = yield call(createCardService, {
+        customerId: customerData._id,
+        companyId: action.payload.companyId,
+        points: 1
+      })
+      yield put(getCardListSuccess({ ...cards, data }))
+      action.payload.navigation.goBack()
     }
   } catch {
 
