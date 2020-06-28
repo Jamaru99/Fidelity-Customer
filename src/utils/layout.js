@@ -7,5 +7,6 @@ export default {
   screenWidth: width,
   screenHeight: height,
   defaultContainerWidth: width/1.2,
+  cameraContainerWidth: width/1.18,
   isSmallDevice: width < 375,
 };

@@ -8,6 +8,7 @@ import {
   getCardListFailed,
   INCREMENT_CARD,
   setLoading,
+  setCanReadQR,
   REGISTER_CUSTOMER
 } from "./action";
 
@@ -60,16 +61,17 @@ function* incrementCard(action) {
     const { cards, customerData } = yield select(state => state)
     const card = cards.find((card) => card.companyId == action.payload.companyId)
     if(!!card) {
-      yield call(incrementCardService, card._id)
-      action.payload.navigation.navigate("CardDetail", { card })
+      const { data } = yield call(incrementCardService, card._id)
+      action.payload.navigation.navigate("CardDetail", { card: data })
     } else {
       const { data } = yield call(createCardService, {
         customerId: customerData._id,
         companyId: action.payload.companyId,
         points: 1
       })
-      yield put(getCardListSuccess({ ...cards, data }))
-      action.payload.navigation.goBack()
+      yield put(getCardListSuccess([ ...cards, data ]))
+      //yield put(canReadQR(true))
+      action.payload.navigation.navigate("CardDetail", { card: data })
     }
   } catch {
 

@@ -4,6 +4,10 @@ export const [SET_LOADING, setLoading] = createAction(
   `SET_LOADING`
 );
 
+export const [SET_CAN_READ_QR, setCanReadQR] = createAction(
+  `SET_CAN_READ_QR`
+);
+
 export const [REGISTER_CUSTOMER, registerCustomer] = createAction(
   `REGISTER_CUSTOMER`
 );

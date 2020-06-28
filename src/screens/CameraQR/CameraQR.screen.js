@@ -7,21 +7,23 @@ import {
 import { connect } from "react-redux";
 import { BarCodeScanner } from 'expo-barcode-scanner';
 
-import { incrementCard } from '@state';
-import { layout } from '@utils';
+import { incrementCard, setCanReadQR } from '@state';
+import { layout, colors } from '@utils';
 
 const QR_CODE = 256
 const STATUS_GRANTED = 'granted'
 
-function CameraQRScreen({ navigation, customerData, incrementCardDispatched }) {
+function CameraQRScreen({ navigation, canReadQR, setCanReadQRDispatched, incrementCardDispatched }) {
 
     const [hasPermission, setHasPermission] = useState(false)
-    let read = false
+
 
     function handleBarCodeScanned({ type, data }) {
-        if(type === QR_CODE && !read){
+      console.log(canReadQR)
+        if(type === QR_CODE){
+          setCanReadQRDispatched(false)
           incrementCardDispatched({ companyId: data, navigation })
-          read = true
+          console.log(canReadQR)
         }
     }
 
@@ -43,8 +45,8 @@ function CameraQRScreen({ navigation, customerData, incrementCardDispatched }) {
                 </Text>
               : 
             <BarCodeScanner
-                onBarCodeScanned={handleBarCodeScanned}
-                style={[StyleSheet.absoluteFill, styles.container]}
+                onBarCodeScanned={!canReadQR ? undefined : handleBarCodeScanned}
+                style={[StyleSheet.absoluteFill, styles.barCodeScanner]}
             >
                 <View style={styles.layerTop} />
                 <View style={styles.layerCenter}>
@@ -63,9 +65,11 @@ function CameraQRScreen({ navigation, customerData, incrementCardDispatched }) {
 const opacity = 'rgba(0, 0, 0, .6)';
 const styles = StyleSheet.create({
   container: {
-    width: layout.screenWidth,
+    width: layout.cameraContainerWidth,
+    alignSelf: 'center',
     flex: 1,
-    flexDirection: 'column'
+    flexDirection: 'column',
+    backgroundColor: '#FFFFFF'
   },
   layerTop: {
     flex: 2,
@@ -93,11 +97,13 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state) => ({
-    customerData: state.customerData
+    customerData: state.customerData,
+    canReadQR: state.canReadQR
 })
   
 const mapDispatchToProps = {
-  incrementCardDispatched: incrementCard
+  incrementCardDispatched: incrementCard,
+  setCanReadQRDispatched: setCanReadQR
 }
   
 export default connect(mapStateToProps, mapDispatchToProps)(CameraQRScreen);
