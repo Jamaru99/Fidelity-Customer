@@ -1,64 +1,74 @@
-import React, { useState, useEffect } from 'react';
-import {
-    Text,
-    View,
-    FlatList,
-    TouchableOpacity
-} from 'react-native';
+import React, { useEffect } from 'react';
+import { Text, View } from 'react-native';
+import { ScrollView } from 'react-native-gesture-handler';
 import { connect } from "react-redux";
-import { setCanReadQR } from '@state';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+
+import { setCanReadQR } from '@state';
+
 import styles from './carddetail.style';
 
-function CardDetailScreen({ customerData, route, setCanReadQRDispatched }) {
+var count = 0
+
+function CardDetailScreen({ route, setCanReadQRDispatched }) {
 
     const { card } = route.params
+    const { companyData, points } = card
 
     useEffect(() => {
+        count = 0
         setCanReadQRDispatched(true)
     }, [])
 
-    const array = new Array(card.companyData.nCardPoints/2)
-
+    const linesOf3 = new Array(Math.floor(companyData.nCardPoints/3)).fill(0)
+    const rest = companyData.nCardPoints % 3
+    const restLine = new Array(rest).fill(0)
+    
     return (
-        <View style={styles.container}>
-            <Text>{card.points}/{card.companyData.nCardPoints}</Text>
+        <ScrollView style={styles.container}>
+            <Text style={styles.title}>
+                Você conseguiu {points} pontos no cartão da {companyData.name}. 
+                Conquiste mais {companyData.nCardPoints - points} para ganhar o prêmio oferecido!
+            </Text>
             {
-                array.map((item) => (
-                    <View style={styles.pointLineContainer}>
+                linesOf3.map((_, index) => (
+                    <View style={styles.pointLineContainer} key={index}>
                         {
-                            [1,2,3].map((item) => (
-                                <PointItem />
-                            ))
+                            [0,0,0].map((_, index) => {
+                                count += 1
+                                return <PointItem earned={count <= card.points} key={index} />
+                            })
                         }
                     </View>
                 ))
                 
             }
-            
-        </View>
+            <View style={styles.pointLineContainer}>
+                {
+                    restLine.map((_, index) => {
+                        count += 1
+                        return <PointItem earned={count <= card.points} key={index} />
+                    })
+                }
+            </View>
+        </ScrollView>
     )
 }
 
-function PointItem() {
+function PointItem({ earned }) {
     return (
-        <View style={styles.pointItemContainer}>
+        <View style={[styles.pointItemContainer, earned ? styles.pointOn : styles.pointOff]}>
             <MaterialCommunityIcons
                 name="star"
                 size={30}
-                color={"#FFF"}
+                color={earned ? "#FFF" : "#999"}
             />
         </View>
     )
 }
 
-const mapStateToProps = (state) => ({
-    customerData: state.customerData
-})
-
 const mapDispatchToProps = {
     setCanReadQRDispatched: setCanReadQR
 }
-
   
-export default connect(mapStateToProps, mapDispatchToProps)(CardDetailScreen);
+export default connect(null, mapDispatchToProps)(CardDetailScreen);

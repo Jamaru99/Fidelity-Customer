@@ -1,5 +1,6 @@
 import { StyleSheet } from 'react-native';
 import { layout, colors } from '@utils';
+import { FontDisplay } from 'expo-font';
 
 const styles = StyleSheet.create({
     container: {
@@ -7,9 +8,9 @@ const styles = StyleSheet.create({
       width: layout.defaultContainerWidth,
       alignSelf: 'center'
     },
-    image: {
-      width: 150,
-      height: 150
+    title: {
+      marginVertical: 20,
+      fontSize: 18
     },
     pointLineContainer: {
         flexDirection: 'row',
@@ -20,8 +21,13 @@ const styles = StyleSheet.create({
       justifyContent: 'center',
       height: 60,
       marginHorizontal: '2.5%',
-      flex: 1,
+      width: '28%',
+    },
+    pointOn: {
       backgroundColor: colors.tintColor
+    },
+    pointOff: {
+      backgroundColor: '#BBB'
     }
 });
 

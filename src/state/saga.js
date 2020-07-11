@@ -63,6 +63,10 @@ function* incrementCard(action) {
     if(!!card) {
       const { data } = yield call(incrementCardService, card._id)
       action.payload.navigation.navigate("CardDetail", { card: data })
+      const newCards = cards.map((item) => {
+        return item._id !== data._id ? item : { ...item, points: data.points }
+      })
+      yield put(getCardListSuccess(newCards))
     } else {
       const { data } = yield call(createCardService, {
         customerId: customerData._id,

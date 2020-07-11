@@ -13,7 +13,7 @@ export default AppNavigator => (
     <Stack.Navigator>
       <Stack.Screen name="LoginStack" component={LoginStack} options={{ headerShown: false }} />
       <Stack.Screen name="BottomTabNavigator" component={BottomTabNavigator} />
-      <Stack.Screen name="CardDetail" component={CardDetailScreen} />
+      <Stack.Screen name="CardDetail" component={CardDetailScreen} options={{ title: "Detalhes" }} />
     </Stack.Navigator>
   </NavigationContainer>
 )
