@@ -6,24 +6,23 @@ import {
 } from 'react-native';
 import { connect } from "react-redux";
 import { BarCodeScanner } from 'expo-barcode-scanner';
+import { useFocusEffect } from '@react-navigation/native';
 
-import { incrementCard, setCanReadQR } from '@state';
+import { incrementCard } from '@state';
 import { layout, colors } from '@utils';
 
 const QR_CODE = 256
 const STATUS_GRANTED = 'granted'
 
-function CameraQRScreen({ navigation, canReadQR, setCanReadQRDispatched, incrementCardDispatched }) {
+function CameraQRScreen({ navigation, incrementCardDispatched }) {
 
     const [hasPermission, setHasPermission] = useState(false)
-
+    let can = true
 
     function handleBarCodeScanned({ type, data }) {
-      console.log(canReadQR)
-        if(type === QR_CODE){
-          setCanReadQRDispatched(false)
+        if(type === QR_CODE && can){
+          can = false
           incrementCardDispatched({ companyId: data, navigation })
-          console.log(canReadQR)
         }
     }
 
@@ -33,6 +32,12 @@ function CameraQRScreen({ navigation, canReadQR, setCanReadQRDispatched, increme
           setHasPermission(status === STATUS_GRANTED);
         })();
       }, []);
+
+    useFocusEffect(
+      React.useCallback(() => {
+        can = true
+      })
+    )
 
     return (
         <View style={styles.container}>
@@ -45,7 +50,7 @@ function CameraQRScreen({ navigation, canReadQR, setCanReadQRDispatched, increme
                 </Text>
               : 
             <BarCodeScanner
-                onBarCodeScanned={!canReadQR ? undefined : handleBarCodeScanned}
+                onBarCodeScanned={handleBarCodeScanned}
                 style={[StyleSheet.absoluteFill, styles.barCodeScanner]}
             >
                 <View style={styles.layerTop} />
@@ -58,7 +63,6 @@ function CameraQRScreen({ navigation, canReadQR, setCanReadQRDispatched, increme
             </BarCodeScanner>
         }
       </View>
-            
     );
 }
 
@@ -97,13 +101,11 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state) => ({
-    customerData: state.customerData,
-    canReadQR: state.canReadQR
+    customerData: state.customerData
 })
   
 const mapDispatchToProps = {
-  incrementCardDispatched: incrementCard,
-  setCanReadQRDispatched: setCanReadQR
+  incrementCardDispatched: incrementCard
 }
   
 export default connect(mapStateToProps, mapDispatchToProps)(CameraQRScreen);

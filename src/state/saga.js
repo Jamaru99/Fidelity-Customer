@@ -8,7 +8,6 @@ import {
   getCardListFailed,
   INCREMENT_CARD,
   setLoading,
-  setCanReadQR,
   REGISTER_CUSTOMER
 } from "./action";
 
@@ -74,7 +73,6 @@ function* incrementCard(action) {
         points: 1
       })
       yield put(getCardListSuccess([ ...cards, data ]))
-      //yield put(canReadQR(true))
       action.payload.navigation.navigate("CardDetail", { card: data })
     }
   } catch {

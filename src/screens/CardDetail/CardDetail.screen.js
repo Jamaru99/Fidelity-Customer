@@ -1,23 +1,19 @@
 import React, { useEffect } from 'react';
 import { Text, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
-import { connect } from "react-redux";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-
-import { setCanReadQR } from '@state';
 
 import styles from './carddetail.style';
 
 var count = 0
 
-function CardDetailScreen({ route, setCanReadQRDispatched }) {
+export default function CardDetailScreen({ route, setCanReadQRDispatched }) {
 
     const { card } = route.params
     const { companyData, points } = card
 
     useEffect(() => {
         count = 0
-        setCanReadQRDispatched(true)
     }, [])
 
     const linesOf3 = new Array(Math.floor(companyData.nCardPoints/3)).fill(0)
@@ -66,9 +62,3 @@ function PointItem({ earned }) {
         </View>
     )
 }
-
-const mapDispatchToProps = {
-    setCanReadQRDispatched: setCanReadQR
-}
-  
-export default connect(null, mapDispatchToProps)(CardDetailScreen);
