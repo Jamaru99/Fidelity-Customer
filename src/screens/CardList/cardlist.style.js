@@ -9,6 +9,9 @@ const styles = StyleSheet.create({
       alignItems: 'center',
       alignSelf: 'center'
     },
+    noCardsText: {
+      fontSize: 18
+    },
     cardItemContainer: {
       flexDirection: 'row',
       alignItems: 'center',

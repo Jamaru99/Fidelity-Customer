@@ -3,11 +3,29 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import TabBarIcon from '../components/TabBarIcon';
 import { ProfileScreen, CardListScreen, CameraQRScreen } from '@screens';
+import { createStackNavigator } from '@react-navigation/stack';
+import { LoginScreen, RegisterScreen } from '@screens';
 
+const Stack = createStackNavigator();
 const BottomTab = createBottomTabNavigator();
 const INITIAL_ROUTE_NAME = 'Home';
 
-export default function BottomTabNavigator({ navigation, route }) {
+export const LoginNavigator = () => (
+  <Stack.Navigator>
+    <Stack.Screen 
+      name="LoginScreen"
+      component={LoginScreen}
+      options={{ title: "Login" }}
+    />
+    <Stack.Screen
+      name="RegisterScreen"
+      component={RegisterScreen}
+      options={{ title: "Cadastrar" }}
+    />
+  </Stack.Navigator>
+)
+
+export function BottomTabNavigator({ navigation, route }) {
 
   navigation.setOptions({
     headerTitle: getHeaderTitle(route),

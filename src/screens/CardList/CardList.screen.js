@@ -23,17 +23,22 @@ function CardListScreen({ customerData, getCardListDispatched, cards, navigation
 
     return (
         <View style={styles.container}>
-            <FlatList
-                style={{ width: '100%' }}
-                data={cards}
-                keyExtractor={(item) => item._id}
-                renderItem={({ item }) => (
-                    <CardItem
-                        card={item}
-                        onPress={() => handleCardItemPress(item)}
+            {
+                cards.length > 0 ?
+                    <FlatList
+                        style={{ width: '100%' }}
+                        data={cards}
+                        keyExtractor={(item) => item._id}
+                        renderItem={({ item }) => (
+                            <CardItem
+                                card={item}
+                                onPress={() => handleCardItemPress(item)}
+                            />
+                        )}
                     />
-                )}
-            />
+                    :
+                    <Text style={styles.noCardsText}>Você ainda não possui cartões fidelidade. Solicite o QR code no estabelecimento.</Text>
+            }
         </View>
     )
 }
