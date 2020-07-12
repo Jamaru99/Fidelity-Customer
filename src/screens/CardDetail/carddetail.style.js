@@ -21,12 +21,13 @@ const styles = StyleSheet.create({
       height: 60,
       marginHorizontal: '2.5%',
       width: '28%',
+      borderRadius: 10
     },
     pointOn: {
       backgroundColor: colors.tintColor
     },
     pointOff: {
-      backgroundColor: '#BBB'
+      backgroundColor: '#ddd'
     }
 });
 

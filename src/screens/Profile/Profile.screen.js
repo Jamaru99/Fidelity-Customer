@@ -1,17 +1,19 @@
 import React, { useState } from 'react';
-import { Ionicons } from '@expo/vector-icons';
 import { StyleSheet, Text, View, Button } from 'react-native';
-import { RectButton, ScrollView } from 'react-native-gesture-handler';
+import { ScrollView } from 'react-native-gesture-handler';
+import { connect } from 'react-redux';
 import { TextField } from 'react-native-material-textfield';
 import { layout } from '@utils';
 
-export default function ProfileScreen() {
+function ProfileScreen({ customerData }) {
+
+  const { username, name, password } = customerData
 
   const [form, setForm] = useState({
-    username: "",
-    password: "",
+    username,
+    password,
     confirmPassword: "",
-    name: "",
+    name,
   })
 
   const onChange = field => text => {
@@ -23,11 +25,13 @@ export default function ProfileScreen() {
       <TextField
         label='Email *'
         onChangeText={onChange("username")}
+        value={form.username}
       />
 
       <TextField
         label='Nome *'
         onChangeText={onChange("name")}
+        value={form.name}
       />
 
       <TextField
@@ -43,29 +47,11 @@ export default function ProfileScreen() {
       />
           
       <View style={styles.button}>
-        <Button
-          title="Salvar" 
-        />
+        <Button title="Salvar" />
       </View>
     </ScrollView>
   );
 }
-
-function OptionButton({ icon, label, onPress, isLastOption }) {
-  return (
-    <RectButton style={[styles.option, isLastOption && styles.lastOption]} onPress={onPress}>
-      <View style={{ flexDirection: 'row' }}>
-        <View style={styles.optionIconContainer}>
-          <Ionicons name={icon} size={22} color="rgba(0,0,0,0.35)" />
-        </View>
-        <View style={styles.optionTextContainer}>
-          <Text style={styles.optionText}>{label}</Text>
-        </View>
-      </View>
-    </RectButton>
-  );
-}
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -75,23 +61,15 @@ const styles = StyleSheet.create({
   contentContainer: {
     paddingTop: 15,
   },
-  optionIconContainer: {
-    marginRight: 12,
-  },
-  option: {
-    backgroundColor: '#fdfdfd',
-    paddingHorizontal: 15,
-    paddingVertical: 15,
-    borderWidth: StyleSheet.hairlineWidth,
-    borderBottomWidth: 0,
-    borderColor: '#ededed',
-  },
-  lastOption: {
-    borderBottomWidth: StyleSheet.hairlineWidth,
-  },
   optionText: {
     fontSize: 15,
     alignSelf: 'flex-start',
     marginTop: 1,
   },
 });
+
+const mapStateToProps = (state) => ({
+  customerData: state.customerData
+})
+
+export default connect(mapStateToProps, null)(ProfileScreen)
