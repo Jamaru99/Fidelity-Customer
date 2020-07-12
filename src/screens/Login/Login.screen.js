@@ -26,17 +26,17 @@ function LoginScreen({ navigation, authenticateCustomerDispatched, customerData 
         <View style={styles.container}>
 
             <TextField
-                label={texts.login["placeholder:username"]}
+                label={texts["login:placeholder:username"]}
                 onChangeText={(text) => setUsername(text)}
             />
             <TextField
-                label={texts.login["placeholder:password"]}
+                label={texts["login:placeholder:password"]}
                 secureTextEntry={true}
                 onChangeText={(text) => setPassword(text)}
             />
 
             <Button 
-                title={texts.login["button:login"]} 
+                title={texts["login:button:login"]} 
                 onPress={handleLoginPress} 
                 disabled={!username || !password}
             />
@@ -44,9 +44,9 @@ function LoginScreen({ navigation, authenticateCustomerDispatched, customerData 
             <Text style={styles.errorText}>{customerData.error}</Text>
 
             <View style={styles.registerContainer}>
-                <Text>{texts.login["new_user"]} </Text>
+                <Text>{texts["login:new_user"]} </Text>
                 <TouchableOpacity onPress={_ => navigation.navigate("RegisterScreen")}>
-                  <Text style={styles.registerText}>{texts.login["link:sign_up"]}</Text>
+                  <Text style={styles.registerText}>{texts["login:link:sign_up"]}</Text>
                 </TouchableOpacity>
             </View>
 

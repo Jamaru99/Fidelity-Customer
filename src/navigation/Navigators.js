@@ -1,10 +1,16 @@
 import * as React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createStackNavigator } from '@react-navigation/stack';
 
 import TabBarIcon from '../components/TabBarIcon';
-import { ProfileScreen, CardListScreen, CameraQRScreen } from '@screens';
-import { createStackNavigator } from '@react-navigation/stack';
-import { LoginScreen, RegisterScreen } from '@screens';
+import {
+  LoginScreen,
+  RegisterScreen,
+  ProfileScreen,
+  CardListScreen,
+  CameraQRScreen
+} from '@screens';
+import { texts } from '@utils';
 
 const Stack = createStackNavigator();
 const BottomTab = createBottomTabNavigator();
@@ -15,12 +21,12 @@ export const LoginNavigator = () => (
     <Stack.Screen 
       name="LoginScreen"
       component={LoginScreen}
-      options={{ title: "Login" }}
+      options={{ title: texts["login:title"] }}
     />
     <Stack.Screen
       name="RegisterScreen"
       component={RegisterScreen}
-      options={{ title: "Cadastrar" }}
+      options={{ title: texts["register:title"] }}
     />
   </Stack.Navigator>
 )
@@ -67,10 +73,10 @@ function getHeaderTitle(route) {
 
   switch (routeName) {
     case 'Home':
-      return 'Meus cartões'
+      return texts["card_list:title"]
     case 'CameraQR':
-      return 'Leitor QR'
+      return texts["camera_qr:title"]
     case 'Info':
-      return 'Meus dados'
+      return texts["profile:title"]
   }
 }

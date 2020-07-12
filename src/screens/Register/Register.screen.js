@@ -26,36 +26,36 @@ function RegisterScreen({ navigation, registerCustomerDispatched }) {
   }
 
   const handleRegisterPress = () => {
-      registerCustomerDispatched({ form, navigation });
+    registerCustomerDispatched({ form, navigation });
   }
 
   return (
     <ScrollView style={styles.container}>
       <TextField
-        label='Email *'
+        label={texts["register:placeholder:username"]}
         onChangeText={onChange("username")}
       />
 
       <TextField
-        label='Nome *'
+        label={texts["register:placeholder:name"]}
         onChangeText={onChange("name")}
       />
 
       <TextField
-        label='Senha *'
+        label={texts["register:placeholder:password"]}
         secureTextEntry={true}
         onChangeText={onChange("password")}
       />
 
       <TextField
-        label='Confirmar senha *'
+        label={texts["register:placeholder:confirm_password"]}
         secureTextEntry={true}
         onChangeText={onChange("confirmPassword")}
       />
           
       <View style={styles.button}>
         <Button
-          title="Cadastrar" 
+          title={texts["register:button:sign_up"]}
           onPress={handleRegisterPress} 
         />
       </View>

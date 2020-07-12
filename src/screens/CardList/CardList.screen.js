@@ -7,7 +7,9 @@ import {
     Image
 } from 'react-native';
 import { connect } from "react-redux";
+
 import { getCardList } from '@state';
+import { texts } from '@utils';
 
 import styles from './cardlist.style';
 
@@ -37,7 +39,7 @@ function CardListScreen({ customerData, getCardListDispatched, cards, navigation
                         )}
                     />
                     :
-                    <Text style={styles.noCardsText}>Você ainda não possui cartões fidelidade. Solicite o QR code no estabelecimento.</Text>
+                    <Text style={styles.noCardsText}>{texts["card_list:no_cards"]}</Text>
             }
         </View>
     )
