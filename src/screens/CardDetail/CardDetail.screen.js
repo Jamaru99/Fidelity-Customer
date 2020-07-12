@@ -7,7 +7,7 @@ import styles from './carddetail.style';
 
 var count = 0
 
-export default function CardDetailScreen({ route, setCanReadQRDispatched }) {
+export default function CardDetailScreen({ route }) {
 
     const { card } = route.params
     const { companyData, points } = card

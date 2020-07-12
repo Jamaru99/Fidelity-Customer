@@ -80,7 +80,6 @@ function* incrementCard(action) {
   }
 }
 
-// SAGA
 export default function* saga() {
   yield takeLatest(AUTHENTICATE_CUSTOMER, authenticateCustomer)
   yield takeLatest(REGISTER_CUSTOMER, registerCustomer)

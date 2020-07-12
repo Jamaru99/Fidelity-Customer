@@ -1,15 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import {
-  Text,
-  StyleSheet,
-  View
-} from 'react-native';
+import { Text, View, StyleSheet } from 'react-native';
 import { connect } from "react-redux";
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import { useFocusEffect } from '@react-navigation/native';
 
 import { incrementCard } from '@state';
-import { layout, colors } from '@utils';
+
+import styles from './cameraqr.style';
 
 const QR_CODE = 256
 const STATUS_GRANTED = 'granted'
@@ -17,31 +14,32 @@ const STATUS_GRANTED = 'granted'
 function CameraQRScreen({ navigation, incrementCardDispatched }) {
 
     const [hasPermission, setHasPermission] = useState(false)
-    let can = true
-
-    function handleBarCodeScanned({ type, data }) {
-        if(type === QR_CODE && can){
-          can = false
-          incrementCardDispatched({ companyId: data, navigation })
-        }
-    }
+    var canRead = true
 
     useEffect(() => {
-        (async () => {
-          const { status } = await BarCodeScanner.requestPermissionsAsync()
-          setHasPermission(status === STATUS_GRANTED);
-        })();
-      }, []);
+      requestPermission()
+    }, [])
 
     useFocusEffect(
       React.useCallback(() => {
-        can = true
+        canRead = true
       })
     )
 
-    return (
-        <View style={styles.container}>
+    async function requestPermission() {
+      const { status } = await BarCodeScanner.requestPermissionsAsync()
+      setHasPermission(status === STATUS_GRANTED);
+    }
 
+    function handleBarCodeScanned({ type, data }) {
+      if(type === QR_CODE && canRead){
+        canRead = false
+        incrementCardDispatched({ companyId: data, navigation })
+      }
+    }
+
+    return (
+      <View style={styles.container}>
         {hasPermission === null
           ? <Text>Requesting for camera permission</Text>
           : hasPermission === false
@@ -50,8 +48,8 @@ function CameraQRScreen({ navigation, incrementCardDispatched }) {
                 </Text>
               : 
             <BarCodeScanner
-                onBarCodeScanned={handleBarCodeScanned}
-                style={[StyleSheet.absoluteFill, styles.barCodeScanner]}
+              onBarCodeScanned={handleBarCodeScanned}
+              style={[StyleSheet.absoluteFill, styles.barCodeScanner]}
             >
                 <View style={styles.layerTop} />
                 <View style={styles.layerCenter}>
@@ -65,40 +63,6 @@ function CameraQRScreen({ navigation, incrementCardDispatched }) {
       </View>
     );
 }
-
-const opacity = 'rgba(0, 0, 0, .6)';
-const styles = StyleSheet.create({
-  container: {
-    width: layout.cameraContainerWidth,
-    alignSelf: 'center',
-    flex: 1,
-    flexDirection: 'column',
-    backgroundColor: '#FFFFFF'
-  },
-  layerTop: {
-    flex: 2,
-    backgroundColor: opacity
-  },
-  layerCenter: {
-    flex: 2,
-    flexDirection: 'row'
-  },
-  layerLeft: {
-    flex: 2,
-    backgroundColor: opacity
-  },
-  focused: {
-    flex: 5
-  },
-  layerRight: {
-    flex: 2,
-    backgroundColor: opacity
-  },
-  layerBottom: {
-    flex: 2,
-    backgroundColor: opacity
-  },
-});
 
 const mapStateToProps = (state) => ({
     customerData: state.customerData
