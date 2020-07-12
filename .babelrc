@@ -10,7 +10,8 @@
           "@navigation": "./src/navigation",
           "@state": "./src/state/action",
           "@services": "./src/services",
-          "@utils": "./src/utils"
+          "@utils": "./src/utils",
+          "@images": "./assets/images"
         }
       }
     ]

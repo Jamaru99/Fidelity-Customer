@@ -9,15 +9,22 @@ const styles = StyleSheet.create({
       alignItems: 'center',
       alignSelf: 'center'
     },
-    image: {
-      width: 150,
-      height: 150
-    },
     cardItemContainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
       width: '100%',
       height: 60,
       marginTop: 15,
-      backgroundColor: colors.tabIconDefault
+      borderRadius: 10,
+      backgroundColor: '#ddd'
+    },
+    cardItemIcon: {
+      width: 50,
+      height: 50,
+      marginHorizontal: 5
+    },
+    cardItemText: {
+      fontWeight: 'bold'
     }
 });
 

@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import {
     Text,
     View,
     FlatList,
-    TouchableOpacity
+    TouchableOpacity,
+    Image
 } from 'react-native';
 import { connect } from "react-redux";
 import { getCardList } from '@state';
@@ -40,8 +41,11 @@ function CardListScreen({ customerData, getCardListDispatched, cards, navigation
 function CardItem({ card, onPress }) {
     return (
         <TouchableOpacity style={styles.cardItemContainer} onPress={onPress}>
-            <Text>{card.companyData.name}</Text>
-            <Text>{card.points}/{card.companyData.nCardPoints} pontos</Text>
+            <Image source={require('@images/card-icon.png')} style={styles.cardItemIcon} />
+            <View>
+                <Text style={styles.cardItemText}>{card.companyData.name}</Text>
+                <Text>{card.points}/{card.companyData.nCardPoints} pontos</Text>
+            </View>
         </TouchableOpacity>
     )
 }
@@ -55,5 +59,4 @@ const mapDispatchToProps = {
     getCardListDispatched: getCardList
 }
 
-  
 export default connect(mapStateToProps, mapDispatchToProps)(CardListScreen);
