@@ -3,6 +3,8 @@ import { Text, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
+import { texts, colors } from '@utils';
+
 import styles from './carddetail.style';
 
 var count = 0
@@ -23,8 +25,8 @@ export default function CardDetailScreen({ route }) {
     return (
         <ScrollView style={styles.container}>
             <Text style={styles.title}>
-                Você conseguiu {points} pontos no cartão da {companyData.name}. 
-                Conquiste mais {companyData.nCardPoints - points} para ganhar o prêmio oferecido!
+                {texts["card_detail:advice_1"]} {points} {texts["card_detail:advice_2"]} {companyData.name}.
+                {texts["card_detail:advice_3"]} {companyData.nCardPoints - points} {texts["card_detail:advice_4"]}
             </Text>
             {
                 linesOf3.map((_, index) => (
@@ -57,7 +59,7 @@ function PointItem({ earned }) {
             <MaterialCommunityIcons
                 name="star"
                 size={30}
-                color={earned ? "#FFF" : "#999"}
+                color={earned ? colors.white : colors.pointOffStar}
             />
         </View>
     )

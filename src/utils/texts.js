@@ -32,9 +32,17 @@ const english = {
 
     // Camera QR
     "camera_qr:title": "QR code reader",
+    "camera_qr:requesting_permission": "Requesting for camera permission",
+    "camera_qr:no_permission": "Camera permission is not granted",
 
     // Profile
     "profile:title": "My info",
+
+    // Card Detail
+    "card_detail:advice_1": "You earned",
+    "card_detail:advice_2": "points in the card of company",
+    "card_detail:advice_3": " Get",
+    "card_detail:advice_4": "to win the offered prize!",
 }
 
 const portuguese = {
@@ -63,9 +71,18 @@ const portuguese = {
 
     // Camera QR
     "camera_qr:title": "QR code reader",
+    "camera_qr:requesting_permission": "Solicitando permissão da câmera...",
+    "camera_qr:no_permission": "Permissão da câmera não concedida.",
 
     // Profile
     "profile:title": "Meus dados",
+
+    // Card Detail
+    "card_detail:advice_1": "Você conseguiu",
+    "card_detail:advice_2": "pontos no cartão da empresa",
+    "card_detail:advice_3": " Consiga mais",
+    "card_detail:advice_4": "para ganhar o prêmio oferecido!",
+
 }
 
 export default deviceLanguage.includes("pt") ? portuguese : english;

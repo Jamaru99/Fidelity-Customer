@@ -2,7 +2,6 @@ import * as React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 
-import TabBarIcon from '../components/TabBarIcon';
 import {
   LoginScreen,
   RegisterScreen,
@@ -11,6 +10,7 @@ import {
   CameraQRScreen
 } from '@screens';
 import { texts } from '@utils';
+import TabBarIcon from '../components/TabBarIcon';
 
 const Stack = createStackNavigator();
 const BottomTab = createBottomTabNavigator();

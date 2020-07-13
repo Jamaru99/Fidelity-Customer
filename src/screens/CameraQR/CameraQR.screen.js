@@ -5,6 +5,7 @@ import { BarCodeScanner } from 'expo-barcode-scanner';
 import { useFocusEffect } from '@react-navigation/native';
 
 import { incrementCard } from '@state';
+import { texts } from '@utils';
 
 import styles from './cameraqr.style';
 
@@ -41,16 +42,14 @@ function CameraQRScreen({ navigation, incrementCardDispatched }) {
     return (
       <View style={styles.container}>
         {hasPermission === null
-          ? <Text>Requesting for camera permission</Text>
+          ? <Text>{texts["camera_qr:requesting_permission"]}</Text>
           : hasPermission === false
-              ? <Text style={{ color: '#fff' }}>
-                  Camera permission is not granted
-                </Text>
+              ? <Text>{texts["camera_qr:no_permission"]}</Text>
               : 
-            <BarCodeScanner
-              onBarCodeScanned={handleBarCodeScanned}
-              style={[StyleSheet.absoluteFill, styles.barCodeScanner]}
-            >
+              <BarCodeScanner
+                onBarCodeScanned={handleBarCodeScanned}
+                style={[StyleSheet.absoluteFill, styles.barCodeScanner]}
+              >
                 <View style={styles.layerTop} />
                 <View style={styles.layerCenter}>
                     <View style={styles.layerLeft} />
@@ -58,7 +57,7 @@ function CameraQRScreen({ navigation, incrementCardDispatched }) {
                     <View style={styles.layerRight} />
                 </View>
                 <View style={styles.layerBottom} />
-            </BarCodeScanner>
+              </BarCodeScanner>
         }
       </View>
     );

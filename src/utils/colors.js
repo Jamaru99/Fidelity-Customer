@@ -9,5 +9,7 @@ export default {
   warningBackground: '#EAEB5E',
   warningText: '#666804',
   noticeBackground: tintColor,
-  noticeText: '#fff',
+  pointOffStar: '#999',
+  white: '#fff',
+  lightGray: '#ddd'
 };

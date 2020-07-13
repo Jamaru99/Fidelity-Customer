@@ -7,7 +7,7 @@ import { CardDetailScreen } from '@screens';
 
 const Stack = createStackNavigator();
 
-export default AppNavigator => (
+export default () => (
   <NavigationContainer>
     <Stack.Navigator>
       <Stack.Screen name="LoginNavigator" component={LoginNavigator} options={{ headerShown: false }} />
