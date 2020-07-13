@@ -30,9 +30,9 @@ function* authenticateCustomer(action) {
     action.payload.navigation.navigate(BOTTOM_TAB_NAVIGATOR)
   } catch(err) {
     if(err.message.includes("401"))
-      yield put(authenticateCustomerFailed(texts.login["error:incorrect_password"]))
+      yield put(authenticateCustomerFailed(texts["login:error:incorrect_password"]))
     else if(err.message.includes("404"))
-      yield put(authenticateCustomerFailed(texts.login["error:user_not_found"]))
+      yield put(authenticateCustomerFailed(texts["login:error:user_not_found"]))
     else
       yield put(authenticateCustomerFailed(texts.generic_error))
   }
