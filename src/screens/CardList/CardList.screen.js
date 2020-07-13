@@ -10,6 +10,7 @@ import { connect } from "react-redux";
 
 import { getCardList } from '@state';
 import { texts } from '@utils';
+import { CARD_DETAIL_SCREEN } from '@navigation';
 
 import styles from './cardlist.style';
 
@@ -20,7 +21,7 @@ function CardListScreen({ customerData, getCardListDispatched, cards, navigation
     }, [])
 
     function handleCardItemPress(card) {
-        navigation.navigate("CardDetail", { card })
+        navigation.navigate(CARD_DETAIL_SCREEN, { card })
     }
 
     return (
@@ -51,7 +52,7 @@ function CardItem({ card, onPress }) {
             <Image source={require('@images/card-icon.png')} style={styles.cardItemIcon} />
             <View>
                 <Text style={styles.cardItemText}>{card.companyData.name}</Text>
-                <Text>{card.points}/{card.companyData.nCardPoints} pontos</Text>
+                <Text>{card.points}/{card.companyData.nCardPoints} {texts["points"]}</Text>
             </View>
         </TouchableOpacity>
     )

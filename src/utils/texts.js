@@ -7,6 +7,7 @@ export const deviceLanguage = Platform.OS === 'ios'
 
 const english = {
     generic_error: "Connection error",
+    points: "points",
 
     // Login
     "login:title": "Login",
@@ -47,6 +48,7 @@ const english = {
 
 const portuguese = {
     generic_error: "Erro de conexão",
+    points: "pontos",
 
     // Login
     "login:placeholder:username": "Email",

@@ -3,6 +3,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
 import { BottomTabNavigator, LoginNavigator } from './Navigators';
+import { LOGIN_NAVIGATOR, BOTTOM_TAB_NAVIGATOR, CARD_DETAIL_SCREEN } from './routes';
 import { CardDetailScreen } from '@screens';
 
 const Stack = createStackNavigator();
@@ -10,9 +11,9 @@ const Stack = createStackNavigator();
 export default () => (
   <NavigationContainer>
     <Stack.Navigator>
-      <Stack.Screen name="LoginNavigator" component={LoginNavigator} options={{ headerShown: false }} />
-      <Stack.Screen name="BottomTabNavigator" component={BottomTabNavigator} />
-      <Stack.Screen name="CardDetail" component={CardDetailScreen} options={{ title: "Detalhes" }} />
+      <Stack.Screen name={LOGIN_NAVIGATOR} component={LoginNavigator} options={{ headerShown: false }} />
+      <Stack.Screen name={BOTTOM_TAB_NAVIGATOR} component={BottomTabNavigator} />
+      <Stack.Screen name={CARD_DETAIL_SCREEN} component={CardDetailScreen} options={{ title: "Detalhes" }} />
     </Stack.Navigator>
   </NavigationContainer>
 )

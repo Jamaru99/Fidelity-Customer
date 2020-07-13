@@ -11,20 +11,26 @@ import {
 } from '@screens';
 import { texts } from '@utils';
 import TabBarIcon from '../components/TabBarIcon';
+import {
+  LOGIN_SCREEN,
+  REGISTER_SCREEN,
+  CARD_LIST_SCREEN,
+  CAMERA_QR_SCREEN,
+  PROFILE_SCREEN
+} from './routes'
 
 const Stack = createStackNavigator();
 const BottomTab = createBottomTabNavigator();
-const INITIAL_ROUTE_NAME = 'Home';
 
 export const LoginNavigator = () => (
   <Stack.Navigator>
     <Stack.Screen 
-      name="LoginScreen"
+      name={LOGIN_SCREEN}
       component={LoginScreen}
       options={{ title: texts["login:title"] }}
     />
     <Stack.Screen
-      name="RegisterScreen"
+      name={REGISTER_SCREEN}
       component={RegisterScreen}
       options={{ title: texts["register:title"] }}
     />
@@ -39,9 +45,9 @@ export function BottomTabNavigator({ navigation, route }) {
   });
 
   return (
-    <BottomTab.Navigator initialRouteName={INITIAL_ROUTE_NAME}>
+    <BottomTab.Navigator initialRouteName={CARD_LIST_SCREEN}>
       <BottomTab.Screen
-        name="Home"
+        name={CARD_LIST_SCREEN}
         component={CardListScreen}
         options={{
           title: 'Cartões',
@@ -49,7 +55,7 @@ export function BottomTabNavigator({ navigation, route }) {
         }}
       />
       <BottomTab.Screen
-        name="CameraQR"
+        name={CAMERA_QR_SCREEN}
         component={CameraQRScreen}
         options={{
           title: 'Leitor QR',
@@ -57,7 +63,7 @@ export function BottomTabNavigator({ navigation, route }) {
         }}
       />
       <BottomTab.Screen
-        name="Info"
+        name={PROFILE_SCREEN}
         component={ProfileScreen}
         options={{
           title: 'Info',
@@ -69,14 +75,14 @@ export function BottomTabNavigator({ navigation, route }) {
 }
 
 function getHeaderTitle(route) {
-  const routeName = route.state?.routes[route.state.index]?.name ?? INITIAL_ROUTE_NAME
+  const routeName = route.state?.routes[route.state.index]?.name ?? ""
 
   switch (routeName) {
-    case 'Home':
+    case CARD_LIST_SCREEN:
       return texts["card_list:title"]
-    case 'CameraQR':
+    case CAMERA_QR_SCREEN:
       return texts["camera_qr:title"]
-    case 'Info':
+    case PROFILE_SCREEN:
       return texts["profile:title"]
   }
 }

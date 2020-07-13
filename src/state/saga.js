@@ -21,11 +21,13 @@ import {
 
 import { texts } from '@utils';
 
+import { BOTTOM_TAB_NAVIGATOR, CARD_DETAIL_SCREEN } from '@navigation';
+
 function* authenticateCustomer(action) {
   try {
     const { data } = yield call(authenticateCustomerService, action.payload)
     yield put(authenticateCustomerSuccess(data))
-    action.payload.navigation.navigate("BottomTabNavigator")
+    action.payload.navigation.navigate(BOTTOM_TAB_NAVIGATOR)
   } catch(err) {
     if(err.message.includes("401"))
       yield put(authenticateCustomerFailed(texts.login["error:incorrect_password"]))
@@ -40,7 +42,7 @@ function* registerCustomer(action) {
   try {
     const { data } = yield call(registerCustomerService, action.payload.form)
     yield put(authenticateCustomerSuccess(data))
-    action.payload.navigation.navigate("BottomTabNavigator")
+    action.payload.navigation.navigate(BOTTOM_TAB_NAVIGATOR)
   } catch(err) {
     yield put(authenticateCustomerFailed(texts.generic_error))
   }
@@ -61,7 +63,7 @@ function* incrementCard(action) {
     const card = cards.find((card) => card.companyId == action.payload.companyId)
     if(!!card) {
       const { data } = yield call(incrementCardService, card._id)
-      action.payload.navigation.navigate("CardDetail", { card: data })
+      action.payload.navigation.navigate(CARD_DETAIL_SCREEN, { card: data })
       const newCards = cards.map((item) => {
         return item._id !== data._id ? item : { ...item, points: data.points }
       })
@@ -73,7 +75,7 @@ function* incrementCard(action) {
         points: 1
       })
       yield put(getCardListSuccess([ ...cards, data ]))
-      action.payload.navigation.navigate("CardDetail", { card: data })
+      action.payload.navigation.navigate(CARD_DETAIL_SCREEN, { card: data })
     }
   } catch {
 
