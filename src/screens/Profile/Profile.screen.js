@@ -4,18 +4,16 @@ import { ScrollView } from 'react-native-gesture-handler';
 import { connect } from 'react-redux';
 import { TextField } from 'react-native-material-textfield';
 
-import { setIsValidUsername } from '@state';
+import { setIsValidUsername, updateCustomer } from '@state';
 
 import styles from './profile.style';
 
-function ProfileScreen({ customerData, isValidUsername, setIsValidUsernameDispatched }) {
+function ProfileScreen({ customerData, isValidUsername, setIsValidUsernameDispatched, updateCustomerDispatched }) {
 
   const { username, name, password } = customerData
 
   const [form, setForm] = useState({
     username,
-    password,
-    confirmPassword: "",
     name,
   })
 
@@ -24,7 +22,11 @@ function ProfileScreen({ customerData, isValidUsername, setIsValidUsernameDispat
   const onChange = field => text => {
     setForm({ ...form, [field]: text })
     if(field === "username")
-      setIsValidUsernameDispatched({ username: text })
+      setIsValidUsernameDispatched({ username, newUsername: text })
+  }
+
+  const handleSavePress = () => {
+    updateCustomerDispatched({ customerData, newCustomerData: form })
   }
 
   return (
@@ -42,14 +44,12 @@ function ProfileScreen({ customerData, isValidUsername, setIsValidUsernameDispat
           onChangeText={onChange("name")}
           value={form.name}
         />
-        <TouchableOpacity style={styles.changePasswordButton}>
+        <TouchableOpacity style={styles.changePasswordButton} onPress={() => setModalVisible(true)}>
           <Text style={styles.changePasswordButtonText}>Change Password</Text>
         </TouchableOpacity>
       </ScrollView>
       <View style={styles.saveButton}>
-        <Button title="Salvar" onPress={() => {
-          setModalVisible(true)
-        }} />
+        <Button title="Salvar" disabled={!isValidUsername} onPress={handleSavePress} />
       </View>
     </View>
   );
@@ -57,22 +57,19 @@ function ProfileScreen({ customerData, isValidUsername, setIsValidUsernameDispat
 
 function ModalChangePassword({ modalVisible, setModalVisible }) {
   return (
-    <Modal 
-      animationType="slide"
-      visible={modalVisible}
-      transparent={true} 
-    >
+    <Modal animationType="slide" visible={modalVisible} transparent={true}>
       <View style={styles.centeredView}>
         <View style={styles.modalView}>
-          <Text style={styles.modalText}>Hello World!</Text>
-
+          <TextField label='Senha atual *' secureTextEntry />
+          <TextField label='Nova senha *' secureTextEntry />
+          <TextField label='Confirmar nova senha *' secureTextEntry />
           <TouchableOpacity
             style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
             onPress={() => {
               setModalVisible(!modalVisible);
             }}
           >
-            <Text style={styles.textStyle}>Hide Modal</Text>
+            <Text style={styles.textStyle}>Change Password</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -86,7 +83,8 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = {
-  setIsValidUsernameDispatched: setIsValidUsername
+  setIsValidUsernameDispatched: setIsValidUsername,
+  updateCustomerDispatched: updateCustomer
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProfileScreen)

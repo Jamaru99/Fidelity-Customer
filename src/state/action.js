@@ -4,10 +4,11 @@ export const [SET_LOADING, setLoading] = createAction(`SET_LOADING`);
 
 // Customer
 export const [REGISTER_CUSTOMER, registerCustomer] = createAction(`REGISTER_CUSTOMER`);
-
+export const [UPDATE_CUSTOMER, updateCustomer] = createAction(`UPDATE_CUSTOMER`);
 export const [AUTHENTICATE_CUSTOMER, authenticateCustomer] = createAction(`AUTHENTICATE_CUSTOMER`);
-export const [AUTHENTICATE_SUCCESS, authenticateCustomerSuccess] = createAction(`AUTHENTICATE_SUCCESS`);
-export const [AUTHENTICATE_FAILED, authenticateCustomerFailed] = createAction(`AUTHENTICATE_FAILED`);
+
+export const [SET_CUSTOMER_DATA_SUCCESS, setCustomerDataSuccess] = createAction(`SET_CUSTOMER_DATA_SUCCESS`);
+export const [SET_CUSTOMER_DATA_FAILED, setCustomerDataFailed] = createAction(`SET_CUSTOMER_DATA_FAILED`);
 
 export const [SET_IS_VALID_USERNAME, setIsValidUsername] = createAction(`SET_IS_VALID_USERNAME`);
 export const [SET_IS_VALID_USERNAME_SUCCESS, setIsValidUsernameSuccess] = createAction(`SET_IS_VALID_USERNAME_SUCCESS`);

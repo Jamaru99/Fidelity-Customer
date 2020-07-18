@@ -1,8 +1,8 @@
 import { call, put, select, takeLatest } from "@redux-saga/core/effects";
 import {
   AUTHENTICATE_CUSTOMER,
-  authenticateCustomerSuccess,
-  authenticateCustomerFailed,
+  setCustomerDataSuccess,
+  setCustomerDataFailed,
   SET_IS_VALID_USERNAME,
   setIsValidUsernameSuccess,
   setIsValidUsernameFailed,
@@ -12,11 +12,13 @@ import {
   INCREMENT_CARD,
   setLoading,
   REGISTER_CUSTOMER,
+  UPDATE_CUSTOMER
 } from "./action";
 
 import { 
   authenticateCustomer as authenticateCustomerService,
   registerCustomer as registerCustomerService,
+  updateCustomer as updateCustomerService,
   isValidUsername as isValidUsernameService,
   getCardList as getCardListService,
   incrementCard as incrementCardService,
@@ -30,31 +32,46 @@ import { BOTTOM_TAB_NAVIGATOR, CARD_DETAIL_SCREEN } from '@navigation';
 function* authenticateCustomer(action) {
   try {
     const { data } = yield call(authenticateCustomerService, action.payload)
-    yield put(authenticateCustomerSuccess(data))
+    yield put(setCustomerDataSuccess(data))
     action.payload.navigation.navigate(BOTTOM_TAB_NAVIGATOR)
   } catch(err) {
     if(err.message.includes("401"))
-      yield put(authenticateCustomerFailed(texts["login:error:incorrect_password"]))
+      yield put(setCustomerDataFailed(texts["login:error:incorrect_password"]))
     else if(err.message.includes("404"))
-      yield put(authenticateCustomerFailed(texts["login:error:user_not_found"]))
+      yield put(setCustomerDataFailed(texts["login:error:user_not_found"]))
     else
-      yield put(authenticateCustomerFailed(texts.generic_error))
+      yield put(setCustomerDataFailed(texts.generic_error))
   }
 }
 
 function* registerCustomer(action) {
   try {
     const { data } = yield call(registerCustomerService, action.payload.form)
-    yield put(authenticateCustomerSuccess(data))
+    yield put(setCustomerDataSuccess(data))
     action.payload.navigation.navigate(BOTTOM_TAB_NAVIGATOR)
   } catch {
-    yield put(authenticateCustomerFailed(texts.generic_error))
+    yield put(setCustomerDataFailed(texts.generic_error))
+  }
+}
+
+function* updateCustomer(action) {
+  try {
+    const { customerData, newCustomerData } = action.payload
+    const { data } = yield call(updateCustomerService, customerData._id, newCustomerData)
+    yield put(setCustomerDataSuccess({ ...customerData, ...data }))
+  } catch {
+    yield put(setCustomerDataFailed(texts.generic_error))
   }
 }
 
 function* setIsValidUsername(action) {
   try {
-    const { data } = yield call(isValidUsernameService, action.payload.username)
+    const { username, newUsername } = action.payload
+    if(username === newUsername) {
+      yield put(setIsValidUsernameSuccess(true))
+      return
+    }
+    const { data } = yield call(isValidUsernameService, newUsername)
     yield put(setIsValidUsernameSuccess(data))
   } catch {
     yield put(setIsValidUsernameFailed())
@@ -98,6 +115,7 @@ function* incrementCard(action) {
 export default function* saga() {
   yield takeLatest(AUTHENTICATE_CUSTOMER, authenticateCustomer)
   yield takeLatest(REGISTER_CUSTOMER, registerCustomer),
+  yield takeLatest(UPDATE_CUSTOMER, updateCustomer),
   yield takeLatest(SET_IS_VALID_USERNAME, setIsValidUsername)
   yield takeLatest(GET_CARD_LIST, getCardList)
   yield takeLatest(INCREMENT_CARD, incrementCard)

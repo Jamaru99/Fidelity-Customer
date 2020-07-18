@@ -22,20 +22,18 @@ const styles = StyleSheet.create({
     fontWeight: 'bold'
   },
   saveButton: {
-    marginVertical: 20
+    marginVertical: 10
   },
   centeredView: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 22
   },
   modalView: {
-    margin: 20,
     backgroundColor: "white",
-    borderRadius: 20,
+    borderRadius: 10,
     padding: 35,
-    alignItems: "center",
+    width: layout.defaultContainerWidth,
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
