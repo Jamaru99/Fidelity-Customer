@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, Button } from 'react-native';
+import { Text, View, Button, Modal, TouchableOpacity } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { connect } from 'react-redux';
 import { TextField } from 'react-native-material-textfield';
-import { layout } from '@utils';
 
-function ProfileScreen({ customerData }) {
+import { setIsValidUsername } from '@state';
+
+import styles from './profile.style';
+
+function ProfileScreen({ customerData, isValidUsername, setIsValidUsernameDispatched }) {
 
   const { username, name, password } = customerData
 
@@ -16,60 +19,74 @@ function ProfileScreen({ customerData }) {
     name,
   })
 
+  const [modalVisible, setModalVisible] = useState(false)
+
   const onChange = field => text => {
-    setForm({ ...form, [field]: text });
+    setForm({ ...form, [field]: text })
+    if(field === "username")
+      setIsValidUsernameDispatched({ username: text })
   }
 
   return (
-    <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
-      <TextField
-        label='Email *'
-        onChangeText={onChange("username")}
-        value={form.username}
-      />
-
-      <TextField
-        label='Nome *'
-        onChangeText={onChange("name")}
-        value={form.name}
-      />
-
-      <TextField
-        label='Senha *'
-        secureTextEntry={true}
-        onChangeText={onChange("password")}
-      />
-
-      <TextField
-        label='Confirmar senha *'
-        secureTextEntry={true}
-        onChangeText={onChange("confirmPassword")}
-      />
-          
-      <View style={styles.button}>
-        <Button title="Salvar" />
+    <View style={styles.container}>
+      <ScrollView  contentContainerStyle={styles.contentContainer}>
+        <ModalChangePassword modalVisible={modalVisible} setModalVisible={setModalVisible} />
+        <TextField
+          label='Email *'
+          onChangeText={onChange("username")}
+          value={form.username}
+          error={isValidUsername ? "" : "Username already taken"}
+        />
+        <TextField
+          label='Nome *'
+          onChangeText={onChange("name")}
+          value={form.name}
+        />
+        <TouchableOpacity style={styles.changePasswordButton}>
+          <Text style={styles.changePasswordButtonText}>Change Password</Text>
+        </TouchableOpacity>
+      </ScrollView>
+      <View style={styles.saveButton}>
+        <Button title="Salvar" onPress={() => {
+          setModalVisible(true)
+        }} />
       </View>
-    </ScrollView>
+    </View>
   );
 }
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    width: layout.defaultContainerWidth,
-    alignSelf: 'center'
-  },
-  contentContainer: {
-    paddingTop: 15,
-  },
-  optionText: {
-    fontSize: 15,
-    alignSelf: 'flex-start',
-    marginTop: 1,
-  },
-});
+
+function ModalChangePassword({ modalVisible, setModalVisible }) {
+  return (
+    <Modal 
+      animationType="slide"
+      visible={modalVisible}
+      transparent={true} 
+    >
+      <View style={styles.centeredView}>
+        <View style={styles.modalView}>
+          <Text style={styles.modalText}>Hello World!</Text>
+
+          <TouchableOpacity
+            style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
+            onPress={() => {
+              setModalVisible(!modalVisible);
+            }}
+          >
+            <Text style={styles.textStyle}>Hide Modal</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+    </Modal>
+  )
+}
 
 const mapStateToProps = (state) => ({
-  customerData: state.customerData
+  customerData: state.customerData,
+  isValidUsername: state.isValidUsername
 })
 
-export default connect(mapStateToProps, null)(ProfileScreen)
+const mapDispatchToProps = {
+  setIsValidUsernameDispatched: setIsValidUsername
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProfileScreen)

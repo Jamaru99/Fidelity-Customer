@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
       height: 60,
       marginTop: 15,
       borderRadius: 10,
-      backgroundColor: '#ddd'
+      backgroundColor: colors.lightGray
     },
     cardItemIcon: {
       width: 50,

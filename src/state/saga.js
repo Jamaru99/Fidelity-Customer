@@ -3,17 +3,21 @@ import {
   AUTHENTICATE_CUSTOMER,
   authenticateCustomerSuccess,
   authenticateCustomerFailed,
+  SET_IS_VALID_USERNAME,
+  setIsValidUsernameSuccess,
+  setIsValidUsernameFailed,
   GET_CARD_LIST,
   getCardListSuccess,
   getCardListFailed,
   INCREMENT_CARD,
   setLoading,
-  REGISTER_CUSTOMER
+  REGISTER_CUSTOMER,
 } from "./action";
 
 import { 
   authenticateCustomer as authenticateCustomerService,
   registerCustomer as registerCustomerService,
+  isValidUsername as isValidUsernameService,
   getCardList as getCardListService,
   incrementCard as incrementCardService,
   createCard as createCardService
@@ -43,8 +47,17 @@ function* registerCustomer(action) {
     const { data } = yield call(registerCustomerService, action.payload.form)
     yield put(authenticateCustomerSuccess(data))
     action.payload.navigation.navigate(BOTTOM_TAB_NAVIGATOR)
-  } catch(err) {
+  } catch {
     yield put(authenticateCustomerFailed(texts.generic_error))
+  }
+}
+
+function* setIsValidUsername(action) {
+  try {
+    const { data } = yield call(isValidUsernameService, action.payload.username)
+    yield put(setIsValidUsernameSuccess(data))
+  } catch {
+    yield put(setIsValidUsernameFailed())
   }
 }
 
@@ -84,7 +97,8 @@ function* incrementCard(action) {
 
 export default function* saga() {
   yield takeLatest(AUTHENTICATE_CUSTOMER, authenticateCustomer)
-  yield takeLatest(REGISTER_CUSTOMER, registerCustomer)
+  yield takeLatest(REGISTER_CUSTOMER, registerCustomer),
+  yield takeLatest(SET_IS_VALID_USERNAME, setIsValidUsername)
   yield takeLatest(GET_CARD_LIST, getCardList)
   yield takeLatest(INCREMENT_CARD, incrementCard)
 }
