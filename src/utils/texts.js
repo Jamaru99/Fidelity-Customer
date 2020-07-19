@@ -15,8 +15,8 @@ const english = {
     "login:placeholder:password": "Password",
     "login:new_user": "New user?",
     "login:link:sign_up": "Sign up!",
-    "login:button:login": "Log in",
-    "login:error:user_not_found": "User does not exist",
+    "login:button:login": "LOG IN",
+    "login:error:user_not_found": "Email not registered",
     "login:error:incorrect_password": "Incorrect password",
 
     // Register
@@ -43,7 +43,7 @@ const english = {
     "card_detail:advice_1": "You earned",
     "card_detail:advice_2": "points in the card of company",
     "card_detail:advice_3": " Get",
-    "card_detail:advice_4": "to win the offered prize!",
+    "card_detail:advice_4": "more to win the offered prize!",
 }
 
 const portuguese = {
@@ -55,8 +55,8 @@ const portuguese = {
     "login:placeholder:password": "Senha",
     "login:new_user": "Usuário novo?",
     "login:link:sign_up": "Cadastre-se!",
-    "login:button:login": "Entrar",
-    "login:error:user_not_found": "Usuário não cadastrado",
+    "login:button:login": "ENTRAR",
+    "login:error:user_not_found": "Email não cadastrado",
     "login:error:incorrect_password": "Senha incorreta",
 
     // Register

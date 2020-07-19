@@ -10,10 +10,11 @@ import { TextField } from 'react-native-material-textfield';
 
 import { texts } from '@utils';
 import { authenticateCustomer } from '@state';
+import { CustomButton } from '@components';
 
 import styles from './login.style';
 
-function LoginScreen({ navigation, authenticateCustomerDispatched, customerData }) {
+function LoginScreen({ navigation, authenticateCustomerDispatched, customerData, loading }) {
 
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
@@ -35,10 +36,10 @@ function LoginScreen({ navigation, authenticateCustomerDispatched, customerData 
                 onChangeText={(text) => setPassword(text)}
             />
 
-            <Button 
-                title={texts["login:button:login"]} 
-                onPress={handleLoginPress} 
-                disabled={!username || !password}
+            <CustomButton 
+                onPress={handleLoginPress}
+                title={texts["login:button:login"]}
+                loading={loading}
             />
 
             <Text style={styles.errorText}>{customerData.error}</Text>
@@ -55,7 +56,8 @@ function LoginScreen({ navigation, authenticateCustomerDispatched, customerData 
 }
 
 const mapStateToProps = (state) => ({
-    customerData: state.customerData
+    customerData: state.customerData,
+    loading: state.loading
 });
   
 const mapDispatchToProps = {

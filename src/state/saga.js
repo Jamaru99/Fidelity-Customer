@@ -31,6 +31,7 @@ import { BOTTOM_TAB_NAVIGATOR, CARD_DETAIL_SCREEN } from '@navigation';
 
 function* authenticateCustomer(action) {
   try {
+    yield put(setLoading(true))
     const { data } = yield call(authenticateCustomerService, action.payload)
     yield put(setCustomerDataSuccess(data))
     action.payload.navigation.navigate(BOTTOM_TAB_NAVIGATOR)
@@ -41,6 +42,8 @@ function* authenticateCustomer(action) {
       yield put(setCustomerDataFailed(texts["login:error:user_not_found"]))
     else
       yield put(setCustomerDataFailed(texts.generic_error))
+  } finally {
+    yield put(setLoading(false))
   }
 }
 
