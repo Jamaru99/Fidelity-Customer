@@ -6,7 +6,10 @@ import { InnerLoader } from './Loader';
 
 export default function CustomButton({ onPress, loading, title, disabled }) {
   return (
-    <TouchableOpacity style={styles.button} onPress={onPress}>
+    <TouchableOpacity
+      style={[styles.button, disabled ? styles.disabledBackground : styles.enabledBackground]}
+      onPress={onPress}
+    >
       {
         loading ?
           <InnerLoader /> :
@@ -18,14 +21,20 @@ export default function CustomButton({ onPress, loading, title, disabled }) {
 
 const styles = StyleSheet.create({
   button: {
-    backgroundColor: colors.tintColor,
+    marginVertical: 12,
     borderRadius: 5,
     padding: 10,
     elevation: 2
   },
   buttonTitle: {
-    color: "white",
+    color: colors.white,
     fontWeight: "bold",
     textAlign: "center"
+  },
+  enabledBackground: {
+    backgroundColor: colors.tintColor
+  },
+  disabledBackground: {
+    backgroundColor: colors.lightGray
   }
 })

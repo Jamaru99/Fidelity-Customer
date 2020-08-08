@@ -1,18 +1,21 @@
 import React, { useState } from 'react';
-import {
-  Button,
-  ScrollView,
-  View
-} from 'react-native';
+import { ScrollView } from 'react-native';
 import { connect } from "react-redux";
 import { TextField } from 'react-native-material-textfield';
 
-import { registerCustomer } from '@state';
+import { CustomButton } from '@components';
+import { registerCustomer, setIsValidUsername } from '@state';
 import { texts } from '@utils';
 
 import styles from './register.style';
 
-function RegisterScreen({ navigation, registerCustomerDispatched }) {
+function RegisterScreen({
+  navigation,
+  isValidUsername,
+  setIsValidUsernameDispatched,
+  registerCustomerDispatched,
+  loading
+}) {
 
   const [form, setForm] = useState({
     username: "",
@@ -21,8 +24,18 @@ function RegisterScreen({ navigation, registerCustomerDispatched }) {
     name: "",
   })
 
+  const [isValidEmail, setIsValidEmail] = useState(true)
+
   const onChange = field => text => {
-    setForm({ ...form, [field]: text });
+    setForm({ ...form, [field]: text })
+    setIsValidEmail(true)
+    if(field === "username")
+      setIsValidUsernameDispatched({ username: "", newUsername: text })
+  }
+
+  const checkValidEmail = () => {
+    const isValidEmaill = (form.username.includes("@") && form.username.length > 3) || form.username === ""
+    setIsValidEmail(isValidEmaill)
   }
 
   const handleRegisterPress = () => {
@@ -31,9 +44,12 @@ function RegisterScreen({ navigation, registerCustomerDispatched }) {
 
   return (
     <ScrollView style={styles.container}>
+
       <TextField
         label={texts["register:placeholder:username"]}
         onChangeText={onChange("username")}
+        onBlur={checkValidEmail}
+        error={!isValidEmail ? "Email invalido" : isValidUsername ? "" : "Username already taken"}
       />
 
       <TextField
@@ -53,18 +69,28 @@ function RegisterScreen({ navigation, registerCustomerDispatched }) {
         onChangeText={onChange("confirmPassword")}
       />
           
-      <View style={styles.button}>
-        <Button
-          title={texts["register:button:sign_up"]}
-          onPress={handleRegisterPress} 
-        />
-      </View>
+      <CustomButton
+        onPress={handleRegisterPress}
+        title={texts["register:button:sign_up"]}
+        loading={loading}
+        disabled={
+          !isValidEmail || !isValidUsername || !form.name ||
+          !form.password || !form.confirmPassword || !form.username
+        }
+      />
+
     </ScrollView>
   );
 }
+
+const mapStateToProps = (state) => ({
+  loading: state.loading,
+  isValidUsername: state.isValidUsername
+})
   
 const mapDispatchToProps = {
-  registerCustomerDispatched: registerCustomer
+  registerCustomerDispatched: registerCustomer,
+  setIsValidUsernameDispatched: setIsValidUsername
 }
   
-export default connect(null, mapDispatchToProps)(RegisterScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(RegisterScreen);

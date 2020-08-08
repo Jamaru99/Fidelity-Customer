@@ -49,11 +49,14 @@ function* authenticateCustomer(action) {
 
 function* registerCustomer(action) {
   try {
+    yield put(setLoading(true))
     const { data } = yield call(registerCustomerService, action.payload.form)
     yield put(setCustomerDataSuccess(data))
     action.payload.navigation.navigate(BOTTOM_TAB_NAVIGATOR)
   } catch {
     yield put(setCustomerDataFailed(texts.generic_error))
+  } finally {
+    yield put(setLoading(false))
   }
 }
 

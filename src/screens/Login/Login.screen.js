@@ -36,10 +36,11 @@ function LoginScreen({ navigation, authenticateCustomerDispatched, customerData,
                 onChangeText={(text) => setPassword(text)}
             />
 
-            <CustomButton 
+            <CustomButton
                 onPress={handleLoginPress}
                 title={texts["login:button:login"]}
                 loading={loading}
+                disabled={!username || !password}
             />
 
             <Text style={styles.errorText}>{customerData.error}</Text>
