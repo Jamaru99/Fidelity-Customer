@@ -38,6 +38,7 @@ const english = {
 
     // Profile
     "profile:title": "My info",
+    "profile:save_button": "SAVE",
 
     // Card Detail
     "card_detail:advice_1": "You earned",
@@ -78,13 +79,13 @@ const portuguese = {
 
     // Profile
     "profile:title": "Meus dados",
+    "profile:save_button": "SALVAR",
 
     // Card Detail
     "card_detail:advice_1": "Você conseguiu",
     "card_detail:advice_2": "pontos no cartão da empresa",
     "card_detail:advice_3": " Consiga mais",
     "card_detail:advice_4": "para ganhar o prêmio oferecido!",
-
 }
 
 export default deviceLanguage.includes("pt") ? portuguese : english;

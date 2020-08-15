@@ -62,11 +62,14 @@ function* registerCustomer(action) {
 
 function* updateCustomer(action) {
   try {
+    yield put(setLoading(true))
     const { customerData, newCustomerData } = action.payload
     const { data } = yield call(updateCustomerService, customerData._id, newCustomerData)
     yield put(setCustomerDataSuccess({ ...customerData, ...data }))
   } catch {
     yield put(setCustomerDataFailed(texts.generic_error))
+  } finally {
+    yield put(setLoading(false))
   }
 }
 

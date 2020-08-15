@@ -1,16 +1,12 @@
 import React, { useState } from 'react';
+import { Text, TouchableOpacity, View } from 'react-native';
 import { connect } from "react-redux";
-import {
-  Button,
-  Text,
-  TouchableOpacity,
-  View
-} from 'react-native';
 import { TextField } from 'react-native-material-textfield';
 
 import { texts } from '@utils';
 import { authenticateCustomer } from '@state';
 import { CustomButton } from '@components';
+import { REGISTER_SCREEN } from '@navigation';
 
 import styles from './login.style';
 
@@ -47,7 +43,7 @@ function LoginScreen({ navigation, authenticateCustomerDispatched, customerData,
 
             <View style={styles.registerContainer}>
                 <Text>{texts["login:new_user"]} </Text>
-                <TouchableOpacity onPress={_ => navigation.navigate("RegisterScreen")}>
+                <TouchableOpacity onPress={_ => navigation.navigate(REGISTER_SCREEN)}>
                   <Text style={styles.registerText}>{texts["login:link:sign_up"]}</Text>
                 </TouchableOpacity>
             </View>

@@ -5,16 +5,24 @@ import { connect } from 'react-redux';
 import { TextField } from 'react-native-material-textfield';
 
 import { setIsValidUsername, updateCustomer } from '@state';
+import { CustomButton } from '@components';
+import { texts } from '@utils';
 
 import styles from './profile.style';
 
-function ProfileScreen({ customerData, isValidUsername, setIsValidUsernameDispatched, updateCustomerDispatched }) {
+function ProfileScreen({
+  customerData,
+  loading,
+  isValidUsername,
+  setIsValidUsernameDispatched,
+  updateCustomerDispatched
+}) {
 
-  const { username, name, password } = customerData
+  const { username, name } = customerData
 
   const [form, setForm] = useState({
     username,
-    name,
+    name
   })
 
   const [modalVisible, setModalVisible] = useState(false)
@@ -32,7 +40,12 @@ function ProfileScreen({ customerData, isValidUsername, setIsValidUsernameDispat
   return (
     <View style={styles.container}>
       <ScrollView  contentContainerStyle={styles.contentContainer}>
-        <ModalChangePassword modalVisible={modalVisible} setModalVisible={setModalVisible} />
+        <ModalChangePassword
+          customerData={customerData}
+          modalVisible={modalVisible}
+          setModalVisible={setModalVisible}
+          updateCustomerDispatched={updateCustomerDispatched}
+        />
         <TextField
           label='Email *'
           onChangeText={onChange("username")}
@@ -48,29 +61,53 @@ function ProfileScreen({ customerData, isValidUsername, setIsValidUsernameDispat
           <Text style={styles.changePasswordButtonText}>Change Password</Text>
         </TouchableOpacity>
       </ScrollView>
-      <View style={styles.saveButton}>
-        <Button title="Salvar" disabled={!isValidUsername} onPress={handleSavePress} />
-      </View>
+      <CustomButton
+        onPress={handleSavePress}
+        title={texts["profile:save_button"]}
+        loading={loading}
+        disabled={!isValidUsername}
+      />
     </View>
   );
 }
 
-function ModalChangePassword({ modalVisible, setModalVisible }) {
+function ModalChangePassword({ customerData, modalVisible, setModalVisible, updateCustomerDispatched }) {
+
+  const [form, setForm] = useState({
+    currentPassword: "",
+    password: "",
+    confirmNewPassword: ""
+  })
+
+  const onChange = field => text => {
+    setForm({ ...form, [field]: text })
+  }
+
   return (
     <Modal animationType="slide" visible={modalVisible} transparent={true}>
       <View style={styles.centeredView}>
         <View style={styles.modalView}>
-          <TextField label='Senha atual *' secureTextEntry />
-          <TextField label='Nova senha *' secureTextEntry />
-          <TextField label='Confirmar nova senha *' secureTextEntry />
-          <TouchableOpacity
-            style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
+          <TextField
+            label='Senha atual *'
+            onChangeText={onChange("currentPassword")}
+            secureTextEntry />
+          <TextField
+            label='Nova senha *'
+            onChangeText={onChange("password")}
+            secureTextEntry />
+          <TextField
+            label='Confirmar nova senha *'
+            onChangeText={onChange("confirmNewPassword")}
+            secureTextEntry
+          />
+          <CustomButton
             onPress={() => {
-              setModalVisible(!modalVisible);
+              setModalVisible(false)
+              updateCustomerDispatched({ customerData, newCustomerData: form })
             }}
-          >
-            <Text style={styles.textStyle}>Change Password</Text>
-          </TouchableOpacity>
+            title="Change Password"
+            disabled={form.currentPassword !== customerData.password}
+          />
         </View>
       </View>
     </Modal>
@@ -78,6 +115,7 @@ function ModalChangePassword({ modalVisible, setModalVisible }) {
 }
 
 const mapStateToProps = (state) => ({
+  loading: state.loading,
   customerData: state.customerData,
   isValidUsername: state.isValidUsername
 })
