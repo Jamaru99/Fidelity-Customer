@@ -8,7 +8,7 @@ export default function CustomButton({ onPress, loading, title, disabled }) {
   return (
     <TouchableOpacity
       style={[styles.button, disabled ? styles.disabledBackground : styles.enabledBackground]}
-      onPress={onPress}
+      onPress={disabled ? null : onPress}
     >
       {
         loading ?

@@ -1,4 +1,5 @@
 import { call, put, select, takeLatest } from "@redux-saga/core/effects";
+import Toast from 'react-native-tiny-toast'
 import {
   AUTHENTICATE_CUSTOMER,
   setCustomerDataSuccess,
@@ -24,9 +25,7 @@ import {
   incrementCard as incrementCardService,
   createCard as createCardService
 } from "@services";
-
 import { texts } from '@utils';
-
 import { BOTTOM_TAB_NAVIGATOR, CARD_DETAIL_SCREEN } from '@navigation';
 
 function* authenticateCustomer(action) {
@@ -66,8 +65,11 @@ function* updateCustomer(action) {
     const { customerData, newCustomerData } = action.payload
     const { data } = yield call(updateCustomerService, customerData._id, newCustomerData)
     yield put(setCustomerDataSuccess({ ...customerData, ...data }))
+    console.log(data)
+    action.payload.callbackSuccess()
   } catch {
     yield put(setCustomerDataFailed(texts.generic_error))
+    action.payload.callbackFailure()
   } finally {
     yield put(setLoading(false))
   }

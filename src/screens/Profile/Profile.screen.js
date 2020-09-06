@@ -3,6 +3,7 @@ import { Text, View, Button, Modal, TouchableOpacity } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { connect } from 'react-redux';
 import { TextField } from 'react-native-material-textfield';
+import Toast from 'react-native-tiny-toast'
 
 import { setIsValidUsername, updateCustomer } from '@state';
 import { CustomButton } from '@components';
@@ -29,17 +30,22 @@ function ProfileScreen({
 
   const onChange = field => text => {
     setForm({ ...form, [field]: text })
-    if(field === "username")
+    if (field === "username")
       setIsValidUsernameDispatched({ username, newUsername: text })
   }
 
   const handleSavePress = () => {
-    updateCustomerDispatched({ customerData, newCustomerData: form })
+    updateCustomerDispatched({
+      customerData,
+      newCustomerData: form,
+      callbackSuccess: () => Toast.showSuccess("Dados alterados!"),
+      callbackFailure: () => Toast.show(texts.generic_error)
+    })
   }
 
   return (
     <View style={styles.container}>
-      <ScrollView  contentContainerStyle={styles.contentContainer}>
+      <ScrollView contentContainerStyle={styles.contentContainer}>
         <ModalChangePassword
           customerData={customerData}
           modalVisible={modalVisible}
@@ -76,11 +82,36 @@ function ModalChangePassword({ customerData, modalVisible, setModalVisible, upda
   const [form, setForm] = useState({
     currentPassword: "",
     password: "",
-    confirmNewPassword: ""
+    confirmPassword: ""
   })
+
+  const [errorMessage, setErrorMessage] = useState("")
 
   const onChange = field => text => {
     setForm({ ...form, [field]: text })
+  }
+
+  const close = () => {
+    setModalVisible(false)
+    setForm({
+      currentPassword: "",
+      password: "",
+      confirmPassword: ""
+    })
+  }
+
+  const handleChangePasswordPress = () => {
+    if (form.currentPassword === customerData.password && form.password === form.confirmPassword) {
+      updateCustomerDispatched({
+        customerData,
+        newCustomerData: form,
+        callbackSuccess: () => Toast.showSuccess("Senha alterada!"),
+        callbackFailure: () => Toast.show(texts.generic_error)
+      })
+      close()
+    } else {
+      Toast.show("Ops! não deu certo")
+    }
   }
 
   return (
@@ -97,17 +128,19 @@ function ModalChangePassword({ customerData, modalVisible, setModalVisible, upda
             secureTextEntry />
           <TextField
             label='Confirmar nova senha *'
-            onChangeText={onChange("confirmNewPassword")}
+            onChangeText={onChange("confirmPassword")}
             secureTextEntry
           />
           <CustomButton
-            onPress={() => {
-              setModalVisible(false)
-              updateCustomerDispatched({ customerData, newCustomerData: form })
-            }}
+            onPress={handleChangePasswordPress}
             title="Change Password"
-            disabled={form.currentPassword !== customerData.password}
+            disabled={
+              !form.currentPassword ||
+              !form.password ||
+              !form.confirmPassword
+            }
           />
+          <Text>{errorMessage}</Text>
         </View>
       </View>
     </Modal>
