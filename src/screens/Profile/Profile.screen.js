@@ -138,6 +138,9 @@ function ModalChangePassword({ customerData, modalVisible, setModalVisible, upda
               !form.confirmPassword
             }
           />
+          <TouchableOpacity style={styles.cancelModalButton} onPress={close}>
+            <Text style={styles.cancelModalText}>Cancelar</Text>
+          </TouchableOpacity>
         </View>
       </View>
     </Modal>

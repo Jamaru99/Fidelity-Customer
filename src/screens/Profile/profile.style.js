@@ -57,6 +57,13 @@ const styles = StyleSheet.create({
   modalText: {
     marginBottom: 15,
     textAlign: "center"
+  },
+  cancelModalButton: {
+    marginTop: 5,
+    alignSelf: "center"
+  },
+  cancelModalText: {
+    color: colors.tintColor
   }
 });
 
