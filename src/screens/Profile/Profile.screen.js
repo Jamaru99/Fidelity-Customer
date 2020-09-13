@@ -85,8 +85,6 @@ function ModalChangePassword({ customerData, modalVisible, setModalVisible, upda
     confirmPassword: ""
   })
 
-  const [errorMessage, setErrorMessage] = useState("")
-
   const onChange = field => text => {
     setForm({ ...form, [field]: text })
   }
@@ -140,7 +138,6 @@ function ModalChangePassword({ customerData, modalVisible, setModalVisible, upda
               !form.confirmPassword
             }
           />
-          <Text>{errorMessage}</Text>
         </View>
       </View>
     </Modal>

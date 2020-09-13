@@ -63,6 +63,8 @@ function* updateCustomer(action) {
   try {
     yield put(setLoading(true))
     const { customerData, newCustomerData } = action.payload
+    if(customerData.username === newCustomerData.username)
+      delete newCustomerData.username;
     const { data } = yield call(updateCustomerService, customerData._id, newCustomerData)
     yield put(setCustomerDataSuccess({ ...customerData, ...data }))
     console.log(data)
