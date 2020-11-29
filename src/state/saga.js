@@ -1,5 +1,4 @@
 import { call, put, select, takeLatest } from "@redux-saga/core/effects";
-import Toast from 'react-native-tiny-toast'
 import {
   AUTHENTICATE_CUSTOMER,
   setCustomerDataSuccess,
@@ -15,7 +14,8 @@ import {
   setCheckedSession,
   REGISTER_CUSTOMER,
   UPDATE_CUSTOMER,
-  GET_SESSION
+  GET_SESSION,
+  DO_LOGOUT,
 } from "./action";
 
 import {
@@ -27,10 +27,11 @@ import {
   incrementCard as incrementCardService,
   createCard as createCardService,
   setUserDataInStorage as setUserDataInStorageService,
-  getUserDataFromStorage as getUserDataFromStorageService
+  getUserDataFromStorage as getUserDataFromStorageService,
+  deleteUserDataFromStorage as deleteUserDataFromStorageService
 } from "@services";
 import { texts } from '@utils';
-import { BOTTOM_TAB_NAVIGATOR, CARD_DETAIL_SCREEN } from '@navigation';
+import { BOTTOM_TAB_NAVIGATOR, CARD_DETAIL_SCREEN, LOGIN_NAVIGATOR } from '@navigation';
 
 function* authenticateCustomer(action) {
   try {
@@ -38,7 +39,7 @@ function* authenticateCustomer(action) {
     const { data } = yield call(authenticateCustomerService, action.payload)
     yield put(setCustomerDataSuccess(data))
     yield setUserDataInStorageService(data)
-    action.payload.navigation.navigate(BOTTOM_TAB_NAVIGATOR)
+    action.payload.navigation.replace(BOTTOM_TAB_NAVIGATOR)
   } catch (err) {
     if (err.message.includes("401"))
       yield put(setCustomerDataFailed(texts["login:error:incorrect_password"]))
@@ -55,9 +56,14 @@ function* getSession(action) {
   const user = yield getUserDataFromStorageService()
   if (!!user) {
     yield put(setCustomerDataSuccess(user))
-    action.payload.navigation.navigate(BOTTOM_TAB_NAVIGATOR)
+    action.payload.navigation.replace(BOTTOM_TAB_NAVIGATOR)
   }
   yield put(setCheckedSession())
+}
+
+function* doLogout(action) {
+  yield deleteUserDataFromStorageService()
+  action.payload.navigation.replace(LOGIN_NAVIGATOR)
 }
 
 function* registerCustomer(action) {
@@ -66,7 +72,7 @@ function* registerCustomer(action) {
     const { data } = yield call(registerCustomerService, action.payload.form)
     yield put(setCustomerDataSuccess(data))
     yield setUserDataInStorageService(data)
-    action.payload.navigation.navigate(BOTTOM_TAB_NAVIGATOR)
+    action.payload.navigation.replace(BOTTOM_TAB_NAVIGATOR)
   } catch {
     yield put(setCustomerDataFailed(texts.generic_error))
   } finally {
@@ -144,6 +150,7 @@ export default function* saga() {
   yield takeLatest(AUTHENTICATE_CUSTOMER, authenticateCustomer)
   yield takeLatest(REGISTER_CUSTOMER, registerCustomer)
   yield takeLatest(GET_SESSION, getSession)
+  yield takeLatest(DO_LOGOUT, doLogout)
   yield takeLatest(UPDATE_CUSTOMER, updateCustomer)
   yield takeLatest(SET_IS_VALID_USERNAME, setIsValidUsername)
   yield takeLatest(GET_CARD_LIST, getCardList)

@@ -8,6 +8,7 @@ export const [UPDATE_CUSTOMER, updateCustomer] = createAction(`UPDATE_CUSTOMER`)
 export const [AUTHENTICATE_CUSTOMER, authenticateCustomer] = createAction(`AUTHENTICATE_CUSTOMER`);
 export const [GET_SESSION, getSession] = createAction(`GET_SESSION`);
 export const [SET_CHECKED_SESSION, setCheckedSession] = createAction(`SET_CHECKED_SESSION`);
+export const [DO_LOGOUT, doLogout] = createAction(`DO_LOGOUT`);
 
 export const [SET_CUSTOMER_DATA_SUCCESS, setCustomerDataSuccess] = createAction(`SET_CUSTOMER_DATA_SUCCESS`);
 export const [SET_CUSTOMER_DATA_FAILED, setCustomerDataFailed] = createAction(`SET_CUSTOMER_DATA_FAILED`);

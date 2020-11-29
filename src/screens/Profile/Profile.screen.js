@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { TextField } from 'react-native-material-textfield';
 import Toast from 'react-native-tiny-toast'
 
-import { setIsValidUsername, updateCustomer } from '@state';
+import { setIsValidUsername, updateCustomer, doLogout } from '@state';
 import { CustomButton } from '@components';
 import { texts } from '@utils';
 
@@ -13,10 +13,12 @@ import styles from './profile.style';
 
 function ProfileScreen({
   customerData,
+  navigation,
   loading,
   isValidUsername,
   setIsValidUsernameDispatched,
-  updateCustomerDispatched
+  updateCustomerDispatched,
+  doLogoutDispatched
 }) {
 
   const { username, name } = customerData
@@ -73,7 +75,7 @@ function ProfileScreen({
         loading={loading}
         disabled={!isValidUsername}
       />
-      <TouchableOpacity style={styles.logoutButton} onPress={null}>
+      <TouchableOpacity style={styles.logoutButton} onPress={() => doLogoutDispatched({ navigation })}>
         <Text style={styles.cancelModalText}>{texts["profile:logout_button"]}</Text>
       </TouchableOpacity>
     </View>
@@ -158,7 +160,8 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = {
   setIsValidUsernameDispatched: setIsValidUsername,
-  updateCustomerDispatched: updateCustomer
+  updateCustomerDispatched: updateCustomer,
+  doLogoutDispatched: doLogout
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProfileScreen)

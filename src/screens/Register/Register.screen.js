@@ -28,9 +28,10 @@ function RegisterScreen({
 
   const onChange = field => text => {
     setForm({ ...form, [field]: text })
-    setIsValidEmail(true)
-    if(field === "username")
+    if(field === "username") {
+      setIsValidEmail(true)
       setIsValidUsernameDispatched({ username: "", newUsername: text })
+    }
   }
 
   const checkValidEmail = () => {
@@ -49,7 +50,7 @@ function RegisterScreen({
         label={texts["register:placeholder:username"]}
         onChangeText={onChange("username")}
         onBlur={checkValidEmail}
-        error={!isValidEmail ? "Email invalido" : isValidUsername ? "" : "Username already taken"}
+        error={!isValidEmail ? "Email inválido" : isValidUsername ? "" : "Username already taken"}
       />
 
       <TextField
