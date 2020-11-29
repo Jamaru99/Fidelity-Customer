@@ -53,14 +53,18 @@ const styles = StyleSheet.create({
     marginTop: 5,
     alignSelf: "center",
   },
+  cancelModalText: {
+    color: colors.tintColor,
+    fontSize: 14,
+  },
   logoutButton: {
     paddingHorizontal: 12,
     paddingTop: 5,
     paddingBottom: 15,
     alignSelf: "center",
   },
-  cancelModalText: {
-    color: colors.tintColor,
+  logoutText: {
+    color: colors.errorText,
     fontSize: 14,
   }
 });

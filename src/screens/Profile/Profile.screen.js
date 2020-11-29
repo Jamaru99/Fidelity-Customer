@@ -76,7 +76,7 @@ function ProfileScreen({
         disabled={!isValidUsername}
       />
       <TouchableOpacity style={styles.logoutButton} onPress={() => doLogoutDispatched({ navigation })}>
-        <Text style={styles.cancelModalText}>{texts["profile:logout_button"]}</Text>
+        <Text style={styles.logoutText}>{texts["profile:logout_button"]}</Text>
       </TouchableOpacity>
     </View>
   );
