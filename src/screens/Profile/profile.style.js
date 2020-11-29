@@ -21,9 +21,6 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: 'bold'
   },
-  saveButton: {
-    marginVertical: 10
-  },
   centeredView: {
     flex: 1,
     justifyContent: "center",
@@ -43,12 +40,6 @@ const styles = StyleSheet.create({
     shadowRadius: 3.84,
     elevation: 5
   },
-  openButton: {
-    backgroundColor: "#F194FF",
-    borderRadius: 20,
-    padding: 10,
-    elevation: 2
-  },
   textStyle: {
     color: "white",
     fontWeight: "bold",
@@ -60,10 +51,17 @@ const styles = StyleSheet.create({
   },
   cancelModalButton: {
     marginTop: 5,
-    alignSelf: "center"
+    alignSelf: "center",
+  },
+  logoutButton: {
+    paddingHorizontal: 12,
+    paddingTop: 5,
+    paddingBottom: 15,
+    alignSelf: "center",
   },
   cancelModalText: {
-    color: colors.tintColor
+    color: colors.tintColor,
+    fontSize: 14,
   }
 });
 

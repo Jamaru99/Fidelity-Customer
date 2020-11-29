@@ -8,6 +8,7 @@ export const deviceLanguage = Platform.OS === 'ios'
 const english = {
     generic_error: "Connection error",
     points: "points",
+    cancel: "Cancel",
 
     // Login
     "login:title": "Login",
@@ -39,6 +40,10 @@ const english = {
     // Profile
     "profile:title": "My info",
     "profile:save_button": "SAVE",
+    "profile:password_button": "Change password",
+    "profile:logout_button": "LOG OUT",
+    "profile:password_updated": "Password updated!",
+    "profile:password_error": "Ops! Something went wrong",
 
     // Card Detail
     "card_detail:advice_1": "You earned",
@@ -50,6 +55,7 @@ const english = {
 const portuguese = {
     generic_error: "Erro de conexão",
     points: "pontos",
+    cancel: "Cancelar",
 
     // Login
     "login:placeholder:username": "Email",
@@ -80,6 +86,10 @@ const portuguese = {
     // Profile
     "profile:title": "Meus dados",
     "profile:save_button": "SALVAR",
+    "profile:password_button": "Alterar senha",
+    "profile:logout_button": "SAIR",
+    "profile:password_updated": "Senha alterada!",
+    "profile:password_error": "Ops! Não deu certo...",
 
     // Card Detail
     "card_detail:advice_1": "Você conseguiu",

@@ -1,6 +1,7 @@
 import { createReducer } from "./lib";
 import {
   SET_LOADING,
+  SET_CHECKED_SESSION,
   SET_CUSTOMER_DATA_SUCCESS,
   SET_CUSTOMER_DATA_FAILED,
   SET_IS_VALID_USERNAME_SUCCESS,
@@ -12,12 +13,14 @@ import {
 const initialState = {
   loading: false,
   isValidUsername: true,
+  checkedSession: false,
   customerData: {},
   cards: [],
 };
 
 const stateMachine = {
   [SET_LOADING]: payload => ({ loading: payload }),
+  [SET_CHECKED_SESSION]: () => ({ checkedSession: true }),
   [SET_CUSTOMER_DATA_SUCCESS]: payload => ({ customerData: payload }),
   [SET_CUSTOMER_DATA_FAILED]: payload => ({ customerData: { error: payload } }),
   [SET_IS_VALID_USERNAME_SUCCESS]: payload => ({ isValidUsername: payload }),

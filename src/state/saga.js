@@ -12,18 +12,22 @@ import {
   getCardListFailed,
   INCREMENT_CARD,
   setLoading,
+  setCheckedSession,
   REGISTER_CUSTOMER,
-  UPDATE_CUSTOMER
+  UPDATE_CUSTOMER,
+  GET_SESSION
 } from "./action";
 
-import { 
+import {
   authenticateCustomer as authenticateCustomerService,
   registerCustomer as registerCustomerService,
   updateCustomer as updateCustomerService,
   isValidUsername as isValidUsernameService,
   getCardList as getCardListService,
   incrementCard as incrementCardService,
-  createCard as createCardService
+  createCard as createCardService,
+  setUserDataInStorage as setUserDataInStorageService,
+  getUserDataFromStorage as getUserDataFromStorageService
 } from "@services";
 import { texts } from '@utils';
 import { BOTTOM_TAB_NAVIGATOR, CARD_DETAIL_SCREEN } from '@navigation';
@@ -33,11 +37,12 @@ function* authenticateCustomer(action) {
     yield put(setLoading(true))
     const { data } = yield call(authenticateCustomerService, action.payload)
     yield put(setCustomerDataSuccess(data))
+    yield setUserDataInStorageService(data)
     action.payload.navigation.navigate(BOTTOM_TAB_NAVIGATOR)
-  } catch(err) {
-    if(err.message.includes("401"))
+  } catch (err) {
+    if (err.message.includes("401"))
       yield put(setCustomerDataFailed(texts["login:error:incorrect_password"]))
-    else if(err.message.includes("404"))
+    else if (err.message.includes("404"))
       yield put(setCustomerDataFailed(texts["login:error:user_not_found"]))
     else
       yield put(setCustomerDataFailed(texts.generic_error))
@@ -46,11 +51,21 @@ function* authenticateCustomer(action) {
   }
 }
 
+function* getSession(action) {
+  const user = yield getUserDataFromStorageService()
+  if (!!user) {
+    yield put(setCustomerDataSuccess(user))
+    action.payload.navigation.navigate(BOTTOM_TAB_NAVIGATOR)
+  }
+  yield put(setCheckedSession())
+}
+
 function* registerCustomer(action) {
   try {
     yield put(setLoading(true))
     const { data } = yield call(registerCustomerService, action.payload.form)
     yield put(setCustomerDataSuccess(data))
+    yield setUserDataInStorageService(data)
     action.payload.navigation.navigate(BOTTOM_TAB_NAVIGATOR)
   } catch {
     yield put(setCustomerDataFailed(texts.generic_error))
@@ -63,11 +78,11 @@ function* updateCustomer(action) {
   try {
     yield put(setLoading(true))
     const { customerData, newCustomerData } = action.payload
-    if(customerData.username === newCustomerData.username)
+    if (customerData.username === newCustomerData.username)
       delete newCustomerData.username;
     const { data } = yield call(updateCustomerService, customerData._id, newCustomerData)
     yield put(setCustomerDataSuccess({ ...customerData, ...data }))
-    console.log(data)
+    yield setUserDataInStorageService({ ...customerData, ...data })
     action.payload.callbackSuccess()
   } catch {
     yield put(setCustomerDataFailed(texts.generic_error))
@@ -80,7 +95,7 @@ function* updateCustomer(action) {
 function* setIsValidUsername(action) {
   try {
     const { username, newUsername } = action.payload
-    if(username === newUsername) {
+    if (username === newUsername) {
       yield put(setIsValidUsernameSuccess(true))
       return
     }
@@ -104,7 +119,7 @@ function* incrementCard(action) {
   try {
     const { cards, customerData } = yield select(state => state)
     const card = cards.find((card) => card.companyId == action.payload.companyId)
-    if(!!card) {
+    if (!!card) {
       const { data } = yield call(incrementCardService, card._id)
       action.payload.navigation.navigate(CARD_DETAIL_SCREEN, { card: data })
       const newCards = cards.map((item) => {
@@ -117,7 +132,7 @@ function* incrementCard(action) {
         companyId: action.payload.companyId,
         points: 1
       })
-      yield put(getCardListSuccess([ ...cards, data ]))
+      yield put(getCardListSuccess([...cards, data]))
       action.payload.navigation.navigate(CARD_DETAIL_SCREEN, { card: data })
     }
   } catch {
@@ -127,8 +142,9 @@ function* incrementCard(action) {
 
 export default function* saga() {
   yield takeLatest(AUTHENTICATE_CUSTOMER, authenticateCustomer)
-  yield takeLatest(REGISTER_CUSTOMER, registerCustomer),
-  yield takeLatest(UPDATE_CUSTOMER, updateCustomer),
+  yield takeLatest(REGISTER_CUSTOMER, registerCustomer)
+  yield takeLatest(GET_SESSION, getSession)
+  yield takeLatest(UPDATE_CUSTOMER, updateCustomer)
   yield takeLatest(SET_IS_VALID_USERNAME, setIsValidUsername)
   yield takeLatest(GET_CARD_LIST, getCardList)
   yield takeLatest(INCREMENT_CARD, incrementCard)

@@ -64,7 +64,7 @@ function ProfileScreen({
           value={form.name}
         />
         <TouchableOpacity style={styles.changePasswordButton} onPress={() => setModalVisible(true)}>
-          <Text style={styles.changePasswordButtonText}>Change Password</Text>
+          <Text style={styles.changePasswordButtonText}>{texts["profile:password_button"]}</Text>
         </TouchableOpacity>
       </ScrollView>
       <CustomButton
@@ -73,6 +73,9 @@ function ProfileScreen({
         loading={loading}
         disabled={!isValidUsername}
       />
+      <TouchableOpacity style={styles.logoutButton} onPress={null}>
+        <Text style={styles.cancelModalText}>{texts["profile:logout_button"]}</Text>
+      </TouchableOpacity>
     </View>
   );
 }
@@ -103,12 +106,12 @@ function ModalChangePassword({ customerData, modalVisible, setModalVisible, upda
       updateCustomerDispatched({
         customerData,
         newCustomerData: form,
-        callbackSuccess: () => Toast.showSuccess("Senha alterada!"),
+        callbackSuccess: () => Toast.showSuccess(texts["profile:password_updated"]),
         callbackFailure: () => Toast.show(texts.generic_error)
       })
       close()
     } else {
-      Toast.show("Ops! não deu certo")
+      Toast.show(texts["profile:password_error"])
     }
   }
 
@@ -139,7 +142,7 @@ function ModalChangePassword({ customerData, modalVisible, setModalVisible, upda
             }
           />
           <TouchableOpacity style={styles.cancelModalButton} onPress={close}>
-            <Text style={styles.cancelModalText}>Cancelar</Text>
+            <Text style={styles.cancelModalText}>{texts["cancel"]}</Text>
           </TouchableOpacity>
         </View>
       </View>
